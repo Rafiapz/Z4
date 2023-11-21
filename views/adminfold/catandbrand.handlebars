@@ -1,0 +1,135 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <h1 class="mt-4">Categories</h1>
+      <div class="text-right mb-3">
+        <a href="/admin/addcategory" class="btn btn-primary">Add Categories</a>
+      </div>
+      <table class="table table-striped table-bordered mt-3">
+        <thead class="thead-dark">
+          <tr>
+            <th>Category Name</th>
+            <th style="width: 120px;">Actions</th> <!-- Adjust the width as needed -->
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Sample category entries -->
+          {{#each categories}}
+          <tr>
+            <td>{{this.Name}}</td>
+            <td>
+              <div class="d-flex">
+                <a href="/admin/editcategory?Name={{this.Name}}" style="width: 50px;"
+                  class="btn btn-sm btn-primary">Edit</a>
+                
+                <button type="button" class="btn btn-sm btn-danger" onclick="removeCategoryjs('{{this.Name}}')"
+                  data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                  Remove
+                </button>
+              </div>
+            </td>
+          </tr>
+          {{/each}}
+          <!-- Add more category entries as needed -->
+        </tbody>
+      </table>
+      <p style="color: red;" >{{error.error}}</p>
+
+      <h1 class="mt-4">Brands</h1>
+      <div class="text-right mb-3">
+        <a href="/admin/addbrand" class="btn btn-primary">Add Brand</a>
+      </div>
+      <table class="table table-striped table-bordered mt-3">
+        <thead class="thead-dark">
+          <tr>
+            <th>Brand Name</th>
+            <th style="width: 120px;">Actions</th> <!-- Adjust the width as needed -->
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Sample brand entries -->
+          {{#each brands}}
+          <tr>
+            <td>{{this.Name}}</td>
+            <td>
+              <div class="d-flex">
+                <a href="/admin/edit-brand/{{this.Name}}" style="width: 50px;"
+                  class="btn btn-sm btn-primary d-md-inline-flex">Edit</a>
+                
+                <button type="button" class="btn btn-sm btn-danger d-md-inline-flex" onclick="removeBrand('{{this.Name}}')"
+                  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Remove
+                </button>
+              </div>
+            </td>
+          </tr>
+          {{/each}}
+          <!-- Add more brand entries as needed -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Logout -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to logout?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+        <a href="/admin/logout" class="btn btn-primary">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ohh No!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete?
+      </div>
+      <div class="modal-footer">
+
+        <a id="removBrandemodal" style="color: white; text-decoration: none;" href="" class="btn btn-primary">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ohh No!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete?
+      </div>
+      <div class="modal-footer">
+
+        <a id="removBrandemodal2" style="color: white; text-decoration: none;" href="" class="btn btn-primary">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+

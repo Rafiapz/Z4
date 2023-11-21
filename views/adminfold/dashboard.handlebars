@@ -1,0 +1,233 @@
+<style>
+  .dashboard-card {
+    width: 300px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .dashboard-card .card-body {
+    padding: 20px;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .card-text {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 15px;
+  }
+
+  .total-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #3498db;
+  }
+</style>
+
+
+
+
+<div class="row">
+  <div class="col-md-7">
+    <div class="dropdown">
+      <!-- Your graph content here -->
+      <a id="reportdropdown" class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        Day wise
+      </a>
+
+      <ul class="dropdown-menu">
+        <li><button class="dropdown-item" onclick="updateChart('Day')">Daily</button></li>
+        <li><button class="dropdown-item" onclick="updateChart('Week')">Weekly</button></li>
+        <li><button class="dropdown-item" onclick="updateChart('Month')">Monthly</button></li>
+        <li><button class="dropdown-item" onclick="updateChart('Year')">Yearly</button></li>
+      </ul>
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+
+
+    <div class="container mt-5">
+
+      <!-- Total Users Card -->
+      <div class="col-md-4">
+        <div class="card dashboard-card">
+          <div class="card-body text-center">
+            <h5 class="card-title">Total Users</h5>
+            <!-- Display your total user count dynamically here -->
+            <p class="card-text">Currently, you have <span class="total-value">{{totalUsers}}</span> users.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Revenue Card -->
+      <div class="col-md-4">
+        <div class="card dashboard-card">
+          <div class="card-body text-center">
+            <h5 class="card-title">Total Revenue</h5>
+            <!-- Display your total revenue dynamically here -->
+            <p class="card-text">Your total revenue is <span class="total-value">₹{{totalRevenue}}</span>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card dashboard-card">
+          <a href="/admin/sales-report-page" type="button" style="color: white;" class="btn btn-info" >
+            Sales Report
+          </a>
+        </div>
+
+
+      </div>
+
+
+      <!-- Modal -->
+ <div class="modal fade" id="downloadReportModal" tabindex="-1" role="dialog" aria-labelledby="downloadReportModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="downloadReportModalLabel">Download Sales Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" class="form-control" id="startDate">
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date:</label>
+                    <input type="date" class="form-control" id="endDate">
+                </div>
+                <div class="form-group">
+                    <label for="format">Select Format:</label>
+                    <select class="form-control" id="format">
+                        <option value="pdf">PDF</option>
+                        <option value="excel">Excel</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="downloadReport()">Download</button>
+            </div>
+        </div>
+    </div>
+</div>     
+ 
+    </div>
+</div>
+{{!-- dummy table for sales summary     --}}
+
+
+
+
+
+
+
+
+  <div class="row">
+    <div class="col-lg-12 mb-4">
+      <!-- Simple Tables -->
+      <div class="card">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Latest Orders</h6>
+          <div class="dropdown">
+
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>Customer</th>
+                <th>Payment Method</th>
+                <th>Status</th>
+                <th>Amount</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each orderSummary}}
+              <tr>
+                <td><a href="#">ORD{{this._id}}</a></td>
+                <td>{{this.Order_Date}}</td>
+
+                <td>{{this.User_id.Full_Name}}</td>
+                <td>{{this.Payment_Method}}</td>
+                <td><span class="badge badge-success">{{this.Status}}</span></td>
+                <td>{{this.Total_Amount}}</td>
+                <td><a href="/admin/detailedorderview?Order={{this._id}}" class="btn btn-sm btn-info">Detail</a></td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+
+        </div>
+        <div class="card-footer"></div>
+      </div>
+    </div>
+  </div>
+  <!--Row-->
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    {{#if prev}}
+    <li class="page-item"><a class="page-link" href="/admin/dashboard?page={{prev}}">Previous</a></li>
+    {{/if}}
+   
+    <li class="page-item"><a class="page-link" href="/admin/dashboard?page={{pageNum}}">{{pageNum}}</a></li>   
+   
+  {{#if next}}
+   <li class="page-item"><a class="page-link" href="/admin/dashboard?page={{next}}">Next</a></li>
+   {{/if}}
+  </ul>
+</nav>
+
+
+  <!-- Modal Logout -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to logout?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+          <a href="/admin/logout" class="btn btn-primary">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script src="/admin/script/dashboard.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+
+<script>
+function downloadReport() {
+
+  $('#downloadReportModal').modal('hide');
+}
+
+
+ </script> 

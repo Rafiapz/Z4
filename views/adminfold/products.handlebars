@@ -1,0 +1,106 @@
+<div>
+  <div class="form-group mt-3">
+    <form class="form-inline" action="/admin/search-product" method="post">
+      <input type="text" name="query" class="form-control mr-2" placeholder="Search...">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+  </div>
+  <div class="d-flex justify-content-end mt-2">
+    <a href="/admin/addproduct" class="btn btn-success">Add Product</a>
+  </div>
+</div>
+
+<br>
+
+<!-- Simple Tables -->
+<div class="card">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Simple Tables</h6>
+  </div>
+  <div class="table-responsive">
+    <table class="table align-items-center table-flush">
+      <thead class="thead-light">
+        <tr>
+          <th>Product</th>
+          <th>Stock</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+        <tr>
+          <td>
+            <div style="width: 50px; height: 50px; display: inline;">
+              <img style="height: 50px;" src="/uploads/cropped/{{Images.[0]}}" alt="">
+            </div>
+            <a style="text-decoration: none;" href="/admin/editproduct?prod={{this._id}}">{{this.Name}}</a>
+
+          </td>
+          <td>{{this.Stock}}</td>
+          <td>{{this.Price}}</td>
+
+          {{#if this.isActive}}
+          <td><span class="badge badge-success">Available</span></td>
+          {{else}}
+          <td><span class="badge badge-danger">Not Available</span></td>
+          {{/if}}
+
+          <td>
+            <a href="/admin/softdelete?id={{this._id}}&status=disable" class="btn btn-sm btn-danger">Disable</a>
+            <a href="/admin/softdelete?id={{this._id}}&status=enable" class="btn btn-sm btn-success">Enable</a>
+          </td>
+        </tr>
+        {{/each}}
+        <!-- Add more table rows as needed -->
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer"></div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+      {{#if prev}}
+      <li class="page-item"><a class="page-link" href="/admin/products?page={{prev}}">Previous</a></li>
+      {{/if}}
+
+      <li class="page-item"><a class="page-link" href="/admin/products?page={{pageNum}}">{{pageNum}}</a></li>
+
+      {{#if next}}
+      <li class="page-item"><a class="page-link" href="/admin/products?page={{next}}">Next</a></li>
+      {{/if}}
+    </ul>
+  </nav>
+</div>
+
+</div>
+
+<!-- Modal Logout -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to logout?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+        <a href="/admin/logout" class="btn btn-primary">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---Container Fluid-->
+<!-- Footer -->
+
+<!-- Scroll to top -->
+<a class="scroll-to-top rounded" href="#page-top">
+  {{!-- <i class="fas fa-angle-up"></i> --}}
+</a>

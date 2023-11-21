@@ -1,0 +1,364 @@
+<style>
+  /* Style labels */
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  /* Style text inputs and select boxes */
+  input[type="text"],
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Style the submit button */
+  input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  /* Style the select box */
+  select.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Optional: Style the modal content */
+  .modal-content {
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  /* Optional: Style the modal header and footer if needed */
+
+  .modal-footer {
+
+    color: white;
+    border-radius: 10px;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 12px;
+  }
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  /* Style for individual card */
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    background-color: #f7f7f7;
+  }
+
+  /* Style for card title */
+  .card-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0;
+  }
+
+  /* Style for card content */
+  .card-content {
+    margin-top: 10px;
+  }
+
+  /* Style for coupon details (example) */
+  .coupon-detail {
+    margin: 5px 0;
+  }
+</style>
+
+<h2>Brand Offers</h2>
+
+<h3 style="color: green;">{{success.success}}</h3>
+<h5 style="color: red;" >{{error.error}}</h5>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 text-right">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Add Brand
+        Offer</button>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div style="margin-left: 10px;" class="card-container">
+  <!-- Sample card 1 -->
+
+  <table class="table align-items-center table-flush">
+    <thead class="thead-light">
+      <tr>
+        <th>Brand</th>
+        <th>Offer</th>
+        <th>Discount</th>
+        <th>Created Date</th>
+        <th>Expiry Date</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each brandOffers}}
+      <tr>
+        <td>{{this.Brand.Name}}</td>
+        <td>{{this.OfferName}}</td>
+        <td>{{this.Discount}}</td>
+        <td>{{this.Created_Date}}</td>
+        <td>{{this.Expiry_Date}}</td>
+        <td>
+
+          {{!-- <button type="button" onclick="editBrandOfferAjax('{{this._id}}')" class="btn btn-sm btn-info"
+            data-toggle="modal" data-target=".bd-example-modal-lg">
+            Edit
+          </button> --}}
+
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary"
+            onclick="editBrandOffer('{{this._id}}','{{this.Brand.Name}}','{{this.OfferName}}','{{this.Discount}}','{{this.Expiry_Date}}','{{this.IsActive}}')"
+            data-toggle="modal" data-target=".bd-example-modal-lg2">Edit
+          </button>
+        </td>
+        <td>
+          {{!-- <div class="dropdown">
+            <button class="btn btn-sm btn-info dropdown-toggle" type="button" id="refundDropdown" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Status
+            </button>
+
+            <div class="dropdown-menu" aria-labelledby="refundDropdown">
+              <button onclick="brandOfferStatus('{{this._id}}',false)" class=" dropdown-item">Disable</button>
+              <button onclick="brandOfferStatus('{{this._id}}',true)" class="dropdown-item">Enable</btton>
+            </div>
+          </div> --}}
+          <button type="button" class="btn btn-outline-danger" onclick="removeBrandOffer('{{this._id}}')"
+            data-bs-toggle="modal" data-bs-target="#exampleModal4">
+            Delete
+          </button>
+        </td>
+      </tr>
+      {{/each}}
+      <!-- Add more table rows as needed -->
+    </tbody>
+  </table>
+
+
+
+
+</div>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    {{#if prev}}
+    <li class="page-item"><a class="page-link" href="/admin/offers?page={{prev}}">Previous</a></li>
+    {{/if}}
+   
+    <li class="page-item"><a class="page-link" href="/admin/offers?page={{pageNum}}">{{pageNum}}</a></li>   
+   
+  {{#if next}}
+   <li class="page-item"><a class="page-link" href="/admin/offers?page={{next}}">Next</a></li>
+   {{/if}}
+  </ul>
+</nav>
+
+<!--modal-->
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+
+      <form id="offerForm" class="form" itemid="offerForm" action="/admin/addBrandOffer" method="post">
+        <div class="form-group">
+          <label for="offerName">Offer Name:</label>
+          <input type="text" id="offerName" name="OfferName" required>
+          <p style="color: red;" id="offnameErr"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="productBrand">Brand</label>
+
+          <select style="height: 47px;" name="Brand" class="form-control" id="offproductBrand" required>
+
+            {{#each brands}}
+            <option value="{{this._id}}">{{this.Name}}</option>
+            {{/each}}
+            <!-- Add more brands as needed -->
+          </select>
+          <p style="color: red;" id="offBrandErr"></p>
+
+        </div>
+
+        <div class="form-group">
+          <label for="discountPercentage">Discount Percentage:</label>
+          <input type="number" id="offdiscountPercentage" name="Discount" required>
+          <p style="color: red;" id="offDisErr"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="Expiry_Date">Expiry Date:</label>
+          <input type="date" id="offexpiryDate" name="Expiry_Date" required>
+          <p style="color: red;" id="offExpdate"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="Expiry_Date">Status:</label>
+          <select style="height: 47px;" name="IsActive" class="form-control" id="offproductBrand" required>
+
+            <option value="true">Active</option>
+            <option value="false">Disable</option>
+
+            <!-- Add more brands as needed -->
+          </select>
+          <p style="color: red;" id="offStatErr"></p>
+        </div>
+
+        <!-- Add more offer-related fields as needed -->
+
+        <button id="submitOfferBtnoff" onclick="validateOfferForm()" type="button" class="btn btn-primary"
+          value="Add Offer">Add Offer</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{{!-- confirm modal --}}
+
+<div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ohh No!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete?
+      </div>
+      <div class="modal-footer">
+
+        <a id="removemodaloffr" style="color: white; text-decoration: none;" href="" class="btn btn-primary">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Logout -->
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+
+<script src="/admin/script/coupon.js"></script>
+
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to logout?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+        <a href="/admin/logout" class="btn btn-primary">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- edit modal --}}
+
+<div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+
+      <form id="editofferForm" class="form" itemid="editofferForm" action="/admin/edit-BrandOffer/{{this._id}}"
+        method="post">
+        <div class="form-group">
+          <label for="offerName">Offer Name:</label>
+          <input type="text" id="editofferName" name="OfferName" required>
+          <p style="color: red;" id="editoffnameErr"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="productBrand">Brand</label>
+
+          <select style="height: 47px;" name="Brand" class="form-control" id="editoffproductBrand" required disabled >
+
+            {{#each brands}}
+            <option value="{{this._id}}">{{this.Name}}</option>
+            {{/each}}
+            <!-- Add more brands as needed -->
+          </select>
+          <p style="color: red;" id="editoffBrandErr"></p>
+
+        </div>
+
+        <div class="form-group">
+          <label for="discountPercentage">Discount Percentage:</label>
+          <input type="number" id="editoffdiscountPercentage" name="Discount" required>
+          <p style="color: red;" id="editoffDisErr"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="Expiry_Date">Expiry Date:</label>
+          <input type="date" id="editoffexpiryDate" name="Expiry_Date" required>
+          <p style="color: red;" id="editoffExpdate"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="Expiry_Date">Status:</label>
+          <select style="height: 47px;" name="IsActive" class="form-control" id="editoffproductStatus" required>
+
+            <option value="true">Active</option>
+            <option value="false">Disable</option>
+
+            <!-- Add more brands as needed -->
+          </select>
+          <p style="color: red;" id="editoffStatErr"></p>
+        </div>
+
+        <!-- Add more offer-related fields as needed -->
+
+        <button id="submitOfferBtnoff" onclick="validateEditOfferForm()" type="button" class="btn btn-primary"
+          value="Add Offer">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

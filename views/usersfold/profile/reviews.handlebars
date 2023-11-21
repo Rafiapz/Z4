@@ -1,0 +1,36 @@
+<br>
+{{>userprofile}}
+<div class="row" style="min-height: 500px;"  >
+
+ {{#each allReviews}}
+ <div class="col-md-3 mb-4">
+            <div class="card" style="height: 100%;">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">{{this.Name}}</h5>
+                    <div class="user-rating">
+                        
+                        {{#each Rating}}
+
+                        {{#if this}}
+
+                        <i class="fas fa-star" style="color: green;"></i>
+                        {{else}}
+                        <i class="fas fa-star"></i>
+                        {{/if}}
+
+
+
+                        {{/each}}
+
+                    </div>
+                    <p class="card-text">{{this.Feedback}}</p>
+
+                </div>
+
+            </div>
+        </div>
+
+{{/each}}
+</div>

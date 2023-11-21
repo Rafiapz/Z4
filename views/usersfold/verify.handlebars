@@ -1,0 +1,42 @@
+
+ 
+ <div class="container my-5">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card custom-card">
+              <div class="card-body">
+                <h2 class="card-title text-center">Verify Your Email Address</h2>
+                <p class="card-text text-muted text-center">Enter OTP received in your registered email ID.</p>
+      
+                <form method="post" action="/verifyOTP">
+                  <div class="mb-4"> <!-- Increased the margin for the input field -->
+                    <label for="verificationCode" class="form-label">Verification Code</label>
+                    <input type="text" class="form-control custom-input" name="OTP" id="verificationCode" placeholder="Enter OTP" >
+                  </div>
+      
+                  <div class="text-center mb-3">
+                    {{!-- <p>OTP validity is 2 minutes</p> --}}
+                    <button type="submit" class="btn btn-danger custom-btn">
+                      Verify Me
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                  </form>
+                  <div class="text-center">
+                    
+                    <a onclick="OneTimePasswordResend()" class="text text-info" >Resend OTP</a> 
+
+
+                    <p class="text-danger">{{expired}}</p>
+                    
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<link rel="stylesheet" href="/user/stylesheet/forgot.css">
+
+ 

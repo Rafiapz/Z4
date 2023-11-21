@@ -1,0 +1,310 @@
+<!-- ... rest of your HTML ... -->
+
+
+<style>
+    /* CSS for wishlist icon */
+    .wishlist-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #fbfbfb;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .wishlist-icon:hover {
+        background-color: #bbf900fc;
+    }
+
+    .wishlist-icon i {
+        font-size: 24px;
+        color: #312a2a;
+    }
+
+    .discount-badge {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #f39c12;
+        padding: 5px 10px;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        color: #fff;
+        font-size: 14px;
+    }
+
+    .star {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 15px solid #f39c12;
+    }
+</style>
+
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        {{#each Banners}}
+        <div class="carousel-item {{#if @first}}active{{/if}}">
+            <img class="d-block w-100" src="/uploads/banners/{{this.Banner_Image}}">
+        </div>
+        {{/each}}
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<div>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-2">
+
+
+
+                <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+                    aria-labelledby="offcanvasWithBothOptionsLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Filter</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+
+                        <form action="/applyfilter" method="post">
+                            <div class="filter-sidebar">
+                                <h4 class="filter-title">Filter by Category</h4>
+                                {{!-- <ul class="filter-list">
+
+                                    {{#each category}}
+                                    <li class="filter-item">
+                                        <input type="radio" name="Category"
+                                            onclick="filterProductbyajax('{{this._id}}','Category')" id="category1"
+                                            class="filter-radio" value="{{this._id}}">
+                                        <label for="category1" class="filter-label">{{this.Name}}</label>
+                                    </li>
+                                    {{/each}}
+
+                                </ul> --}}
+
+                                <h4 class="filter-title">Filter by Brand</h4>
+                                <ul class="filter-list">
+
+                                    {{#each brand}}
+                                    <li class="filter-item">
+                                        <input type="checkbox" onclick="filterProductbyajax('{{this._id}}','Brand')"
+                                            value="{{this._id}}" name="Brand" id="filt{{this._id}}"
+                                            class="filter-checkbox">
+                                        <label for="brand1" class="filter-label">{{this.Name}}</label>
+                                    </li>
+                                    {{/each}}
+
+                                </ul>
+
+                                {{!-- <h4 class="filter-title">Filter by RAM</h4>
+                                <select name="RAM" class="filter-select">
+                                    <option value="" selected></option>
+                                    <option value="2GB">2GB</option>
+                                    <option value="4GB">4GB</option>
+                                    <option value="8GB">8GB</option>
+                                    <option value="16GB">16GB</option>
+                                </select>
+
+                                <h4 class="filter-title">Filter by Internal Storage</h4>
+                                <select name="InternalStorage" class="filter-select">
+                                    <option value="" selected></option>
+                                    <option value="32GB">32GB</option>
+                                    <option value="64GB">64GB</option>
+                                    <option value="128GB">128GB</option>
+                                    <option value="256GB">256GB</option>
+                                    <option value="512GB">512GB</option>
+                                </select>
+
+                                <h4 class="filter-title">Filter by Price</h4>
+                                <ul class="filter-list">
+
+                                    <li class="filter-item">
+                                        <input type="checkbox" value="lte10000" name="DiscountPrice" id="price1"
+                                            class="filter-checkbox">
+                                        <label for="price1" class="filter-label">₹10,000 and Below</label>
+                                    </li>
+                                    <li class="filter-item">
+                                        <input type="checkbox" name="DiscountPrice" value="gte10001" id="price2"
+                                            class="filter-checkbox">
+                                        <label for="price2" class="filter-label">₹10,001 - ₹15,000</label>
+                                    </li>
+                                    <li class="filter-item">
+                                        <input type="checkbox" name="DiscountPrice" value="gte 15001" id="price3"
+                                            class="filter-checkbox">
+                                        <label for="price3" class="filter-label">₹15,001 - ₹25,000</label>
+                                    </li>
+                                    <li class="filter-item">
+                                        <input type="checkbox" name="DiscountPrice" id="price4" class="filter-checkbox">
+                                        <label for="price4" class="filter-label">₹25,001 - ₹50,000</label>
+                                    </li>
+                                    <li class="filter-item">
+                                        <input type="checkbox" name="DiscountPrice" id="price5" class="filter-checkbox">
+                                        <label for="price5" class="filter-label">₹50,001 and Above</label>
+                                    </li>
+                                </ul>
+
+                                <button type="submit" class="apply-button">Apply</button> --}}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-10">
+                    <h1 style="font-size: 32px; color: #333; font-weight: bold; text-transform:">Best Selling Products
+                    </h1>
+                </div>
+                <div class="col-md-2 text-right">
+                    <a href="/shop?type='bestSelling'" class="btn btn-dark btn-lg">View All</a>
+                </div>
+            </div>
+            <br>
+
+
+
+            <div class="row " id="proloop">
+
+                {{#each productslist}}
+                {{#if this.IsActive}}
+                {{#if this.Stock}}
+                <div class="col-md-3">
+                    <figure class="card card-sm card-product">
+
+                        <div class="img-wrap" id="{{this._id}}" style="padding: 5px;">
+                            {{#if this.Offer_Percentage}}
+                            <div class="discount-badge">
+
+                                <span>{{this.Offer_Percentage}}% OFF</span>
+                            </div>
+                            {{/if}}
+                            <img onclick="productDetailsUser('{{this._id}}')" src="/uploads/cropped/{{Images.[0]}}">
+
+                            {{#if ../guest}}
+                            {{else}}
+                            <div onclick="toWishList('{{this._id}}')" class="wishlist-icon">
+                                <i class="fa fa-heart"></i>
+                            </div>
+                            {{/if}}
+
+
+                        </div>
+
+                        <figcaption class="info-wrap text-center">
+                            <h6 class="title text-truncate"><a href="#">{{this.Name}}</a></h6>
+                            <div class="rating-wrap mb-2">
+                                {{#each Average_Rating}}
+                                {{#if this}}
+                                <i class="fas fa-star" style="color: rgb(237, 229, 15);"></i>
+                                {{else}}
+                                <i class="fas fa-star"></i>
+                                {{/if}}
+                                {{/each}}
+                                <br>
+
+
+                                {{!-- <div class="label-rating">RAM : {{this.RAM}}</div> --}}
+                                <div class="label-rating">RAM:{{this.RAM}}; Internal Storage :{{this.InternalStorage}}
+                                </div>
+                            </div>
+
+                            <div class="product-prices">
+                                {{#if this.Price}}
+                                <span class="original-price"><del
+                                        style="color: red; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">₹{{this.Price}}</del>
+                                </span>
+                                {{/if}}
+                                <span
+                                    style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"
+                                    class="discount-price">₹{{this.DiscountPrice}}</span>
+                            </div>
+                            <p>
+                                {{#if ../guest}}
+
+                                <button id="btnVIEWDETAILS" onclick="productDetailsUser('{{this._id}}')"
+                                    class="btn alert btn-info">
+                                    VIEW DETAILS
+                                </button>
+
+                                {{else}}
+
+
+                                <button id="btnaddtocart" onclick="addToCart(`{{this._id}}`)"
+                                    class="btn alert btn-info">
+                                    <i class="fa fa-shopping-cart"></i> ADD TO CART
+                                </button>
+
+                                {{/if}}
+                            </p>
+                        </figcaption>
+                    </figure>
+                </div>
+                {{/if}}
+                {{/if}}
+                {{/each}}
+
+            </div>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    {{#if prev}}
+                    <li class="page-item"><a class="page-link" href="/?page={{prev}}">Previous</a></li>
+                    {{/if}}
+
+                    <li class="page-item"><a class="page-link" href="/?page={{pageNum}}">{{pageNum}}</a></li>
+
+                    {{#if next}}
+                    <li class="page-item"><a class="page-link" href="/?page={{next}}">Next</a></li>
+                    {{/if}}
+                </ul>
+            </nav>
+
+
+
+            <div class="text-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    function filterProductbyajax(id, type) {
+
+        const div = document.getElementById('proloop')
+
+        location.href = `/filter-product/${type}?query=${id}`
+
+
+    }
+</script>

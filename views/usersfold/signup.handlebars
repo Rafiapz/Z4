@@ -1,0 +1,51 @@
+<div class="container-fluid sgn">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-7 order-2 order-md-1 aa">
+            <img src="/user/photos/basket_shop.png" alt="Image" class="shpimg" />
+        </div>
+        <div class="col-md-5 order-1 order-md-2">
+            <div class="signup">
+                <h2 class="custom-italic-label">Create an Account</h2>
+                <form id="signupForm" action="/signupSubmit" method="post">
+                    <div class="form-group mb-3">
+                        <label for="enter-details" class="custom-italic-label">Enter your details below</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="custom-italic-label">Name</label>
+                        <input type="text" id="Fullname" name="Full_Name" class="form-control fcustom" />
+                        <p id="nameError" class="error-message" style="color: red;"></p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="custom-italic-label">Email</label>
+                        <input type="email" id="email" name="Email_Id" class="form-control fcustom" />
+                        <p id="emailError" class="error-message" style="color: red;">{{emailerror}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="custom-italic-label">Password</label>
+                        <input type="password" id="passworduser" name="Password" class="form-control fcustom" />
+                        <p id="passwordError" class="error-message" style="color: red;"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password" class="custom-italic-label">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="ConfirmPassword" class="form-control fcustom" />
+                        <p id="confirmPasswordError" class="error-message" style="color: red;"></p>
+                    </div>
+                    <p style="color: red;" >{{error.error}}</p>
+                    <input style="display:none;" name="Referral" value="{{referral}}" type="text">
+                    <div class="mb-2">
+                        <button id="signupSubmit" type="button" class="mvv btn btn-danger custom-create-account-btn" onclick="validateForm()">Create Account</button>
+
+                    </div>
+                </form>
+                <p class="mt-3 custom-italic-label">
+                    Already have an account? <a href="/login">Log in</a>
+                </p>
+                <p id="error" class="error-message" style="color: red;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/user/script/profile.js"></script>

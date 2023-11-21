@@ -1,0 +1,178 @@
+body {
+    margin: 0;
+  }
+
+  
+  .hh {
+    padding: 3px;
+    border-bottom: solid black 1px;
+  }
+  
+  .hone {
+    background-color: #212529;
+    height: 3vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .ptheaderone {
+    color: white;
+    margin-top: 0.1rem;
+    font-size: 10px;
+  }
+  
+  .nav {
+    --bs-link-color: #0d0d0e;
+  }
+ 
+  
+  .icn {
+    background-color: rgb(235, 235, 47);
+  }
+  
+  .fa-solid.fa-magnifying-glass {
+    font-size: 24px;
+  }
+  
+  .aa {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0;
+  }
+  .shpimg {
+    max-width: 100%;
+    height: auto;
+    margin-left: 0; 
+    margin-right: auto;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 150px;
+    margin-right: 20px;
+  }
+  
+  .signup form,
+  .signup p {
+    margin-right: 0;
+  }
+  
+  .mvv {
+    margin-left: 7;
+    margin-top: 2%;
+  }
+  
+  .menu {
+    list-style: none;
+    padding: 0;
+    background-color: #a75454;
+    z-index: 1;
+    max-width: 300px;
+    justify-content: center;
+  }
+  
+  .menu li {
+    margin-bottom: 10px;
+    text-align: right;
+  }
+  
+  .menu a {
+    text-decoration: none;
+    color: #000;
+    display: block;
+    padding: 5px 10px;
+  }
+  .custom-bold-label {
+    font-weight: bold;
+  }
+  
+  .custom-italic-label {
+    font-style: italic;
+  }
+  .custom-btn-width-height {
+    width: 100%; 
+    height: 50px; 
+  }
+  
+  .custom-create-account-btn {
+    font-size: 18px; 
+    font-weight: bold; 
+  }
+ 
+  .navbar-nav .nav-link {
+    color: white;
+  }
+  
+ 
+  .navbar-nav .nav-link:hover {
+    color: #fff; 
+  }
+  .custom-btn-size {
+    width: 100%; 
+    height: 40px; 
+  }
+  
+  .mb-3 {
+    margin-bottom: 6px !important; 
+  }
+  .fcustom {
+    height: 60px; 
+  }
+  .custom-create-account-btn {
+    width: 220px; 
+    height: 50px;
+    font-size: 18px; 
+    font-weight: bold; 
+  }
+  .fas.fa-search {
+    color: white;
+  }
+  .signup .form-control.fcustom {
+      width: 83% !important; 
+  }
+  .sgn{
+
+    margin-top: 4px;
+  }
+  .price-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px; /* Adjust the top margin as needed */
+}
+
+.original-price del {
+    color: #999; /* Set the color of the original price */
+    font-size: 18px; /* Adjust the font size as needed */
+}
+.discount-price {
+    font-size: 24px; /* Adjust the font size as needed */
+    color: #000; /* Set the color of the discount price */
+    font-weight: bold; /* Make the discount price bold */
+    margin-left: 10px; /* Adjust the left margin to reduce spacing */
+}
+.nvitems{
+  
+  font-weight: 500!important;
+}
+/* Apply styles to the "Out of Stock" label */
+.out-of-stock-label {
+  display: inline-block;
+  padding: 5px 10px; /* Adjust padding as needed */
+  background-color: #a09919; /* Red background color */
+  color: #fff; /* White text color */
+  font-weight: bold; /* Make the text bold */
+  border-radius: 4px; /* Add rounded corners */
+  text-decoration: none; /* Remove underline */
+  text-align: center;
+}
+
+/* Hover styles (optional) */
+.out-of-stock-label:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
+.img-zoom-container {
+  z-index: 1; /* Set a higher z-index value to place it in front of other content */
+}

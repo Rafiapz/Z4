@@ -1,0 +1,92 @@
+<table class="table table-striped">
+  <thead class="thead-warning">
+    <tr>
+      <th>Order ID</th>
+      <th>Customer Id</th>
+      <th>Order Date</th>
+      <th>Payment Method</th>
+      <th>Payment Status</th>
+      <th>Order Total</th>
+      <th>Status</th>
+      <th>Products</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each allOrders}}
+    <tr>
+      <td>ORD{{this._id}}</td>
+      
+  
+      
+      <td>{{this.User_id}}</td>
+      <td>{{this.Order_Date}}</td>
+      <td>{{this.Payment_Method}}</td>
+      <td>{{this.Payment_Status}}</td>
+      <td>{{this.Total_Amount}}</td>
+      <td>
+        <div class="btn-group">
+          <button id="ordstatbtn{{this._id}}" style="background-color: {{this.color}}; color:white " class="btn  dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{this.Status}}
+          </button>
+          {{#if Cancelled}}
+          {{else}}
+          <div class="dropdown-menu" >
+           
+            <button onclick="changeTheOrderStatus('{{this._id}}','Placed')" class="dropdown-item drpodstmnu" >placed</button>
+            <button onclick="changeTheOrderStatus('{{this._id}}','Shipped')" class="dropdown-item drpodstmnu" >Shipped</button>
+            <button onclick="changeTheOrderStatus('{{this._id}}','Delivered')" class="dropdown-item drpodstmnu" >Delivered</button>
+
+            <a class="dropdown-item drpodstmnu" href="/admin/cancelorder/{{this._id}}" >Rejected</a>
+            <button onclick="changeTheOrderStatus('{{this._id}}','Refunded')" class="dropdown-item drpodstmnu" >Refunded</button>
+            
+            <!-- Add more status options as needed -->
+          </div>
+          {{/if}}
+        </div>
+      </td>
+      <td><a class="btn btn-info" href="/admin/detailedorderview?Order={{this._id}}">View Details</a></td>
+    </tr>
+    <tr>
+      {{/each}}
+      
+    </tr>
+    <!-- Add more rows for additional orders -->
+  </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    {{#if prev}}
+    <li class="page-item"><a class="page-link" href="/admin/orders?page={{prev}}">Previous</a></li>
+    {{/if}}
+   
+    <li class="page-item"><a class="page-link" href="/admin/orders?page={{pageNum}}">{{pageNum}}</a></li>   
+   
+  {{#if next}}
+   <li class="page-item"><a class="page-link" href="/admin/orders?page={{next}}">Next</a></li>
+   {{/if}}
+  </ul>
+</nav>
+
+
+
+ <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to logout?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+          <a href="/admin/logout" class="btn btn-primary">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>

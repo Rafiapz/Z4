@@ -1,0 +1,59 @@
+<div class="container">
+    <br>
+
+    <!-- Shipping Address Form -->
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Shipping Address</h5>
+                    <form id="shipping-form-edit" method="post" action="/addresseditsubmitt/{{address.AddressId}}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="edit-name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="edit-name" value="{{address.FullName}}"
+                                        name="FullName">
+                                    <p id="adname-error" class="text-danger"></p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit-mobile" class="form-label">Mobile Number</label>
+                                    <input type="text" class="form-control" value="{{address.MobileNumber}}"
+                                        id="edit-mobile" name="MobileNumber">
+                                    <p id="admobile-error" class="text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="edit-address" class="form-label">House No., Building Name</label>
+                                    <input type="text" class="form-control" value="{{address.HouseNo}}"
+                                        id="edit-address" name="HouseNo">
+                                    <p id="address-error" class="text-danger"></p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit-locality" class="form-label">Locality</label>
+                                    <input type="text" class="form-control" value="{{address.Locality}}"
+                                        id="edit-locality" name="Locality">
+                                    <p id="locality-error" class="text-danger"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-city" class="form-label">City/District</label>
+                            <input type="text" class="form-control" value="{{address.City}}" id="edit-city" name="City">
+                            <p id="city-error" class="text-danger"></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-zip" class="form-label">Pin Code</label>
+                            <input type="text" class="form-control" value="{{address.PinCode}}" id="edit-zip"
+                                name="PinCode">
+                            <p id="zip-error" class="text-danger"></p>
+                        </div>
+                        <button type="button" onclick="validateEditAddressForm()" class="btn btn-primary">Submit</button>
+                         <a href="/savedaddresses" type="button" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

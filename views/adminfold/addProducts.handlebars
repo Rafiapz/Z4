@@ -1,0 +1,183 @@
+
+
+
+<!-- Content -->
+<div id="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Add Product</h5>
+          </div>
+          <div class="card-body" style="height: 100%;">
+            <form action="/admin/submitproduct"  method="post" id="addProductForm" enctype="multipart/form-data" >
+              <!-- Product Name -->
+              <div class="form-group">
+                <label for="productName">Product Name</label>
+                <input type="text" class="form-control" name="Name" id="productName" placeholder="Enter product name" required>
+                <p style="color: red;" id="prodNameErr"></p>
+              </div>
+
+              <!-- Product Description -->
+              <div class="form-group">
+                <label for="productDescription">Product Description</label>
+                <textarea class="form-control" name="Description" id="productDescription" rows="4" placeholder="Enter product description"required></textarea>
+                 <p style="color: red;" id="prodDisErr"></p> 
+              </div>
+
+              <!-- Product Price -->
+              <div class="form-group">
+                <label for="productPrice">Product Price</label>
+                <input type="number" name="Price" class="form-control" id="productPrice" placeholder="Enter product price" required>
+                <p style="color: red;" id="proPriceErr"></p>
+              </div>
+
+              <!-- Product Discount -->
+               <div class="form-group">
+                <label for="productPrice">Discount Price</label>
+                <input type="number" name="DiscountPrice" class="form-control" id="productDisPrice" placeholder="Enter product price" required>
+                <p style="color: red;" id="PodDisPriceErr"></p>
+              </div>
+
+      
+
+              <div class="form-group">
+           <label for="productImages">Upload Product Images</label>
+           <input type="file" class="form-control-file" name="Images" id="productImages" accept="image/*" multiple="true" onchange="previewImages()">
+           <p style="color: red;" id="prodImgErr"></p>
+             <div id="imagePreview" class="image-preview-container">
+        
+              
+             </div>
+              </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body" style="height: 100%;">
+
+            <!-- Product Category -->
+            <div class="form-group">
+              <label for="productCategory">Product Category</label>
+              
+              <select name="Category" class="form-control" id="productCategory" required>
+               {{#each categories}}
+                <option value="{{this._id}}">{{this.Name}}</option>
+               {{/each}}
+                <!-- Add more categories as needed -->
+              </select>
+              <p style="color: red;" id="prodCatErr"></p>
+              
+            </div>
+
+            <!-- Product Color -->
+            <div class="form-group">
+              <label for="productColor">Product Color</label>
+              <input type="text" class="form-control" name="Color" id="productColor" placeholder="Enter product color">
+              <p style="color: red;" id="prodColErr"></p>
+            </div>
+
+             <div class="form-group">
+              <label for="Quantiry">Quantity</label>
+              <input type="number" class="form-control" name="Stock" id="Quantity" placeholder="Enter product color">
+              <p style="color: red;" id="proQtyErr"></p>
+            </div>
+
+            <!-- Product Brand -->
+            <div class="form-group">
+              <label for="productBrand">Product Brand</label>
+              
+              <select name="Brand" class="form-control" id="productBrand" required>
+             {{#each brands}}
+                <option value="{{this._id}}">{{this.Name}}</option>
+              {{/each}}
+                <!-- Add more brands as needed -->
+              </select>
+              <p style="color: red;" id="prodBrandErr"></p>
+              
+            </div>
+
+            <!-- Product RAM -->
+            <div class="form-group">
+              <label for="productRAM">Product RAM</label>
+              <select name="RAM" class="form-control" id="productRAM" required>
+                <option value="" disabled selected>Select RAM</option>
+                <option value="2GB">2GB</option>
+                <option value="4GB">4GB</option>
+                <option value="8GB">8GB</option>
+                <option value="16GB">16GB</option>
+                <option value="32GB">32GB</option>
+                <!-- Add more RAM options as needed -->
+              </select>
+              <p style="color: red;" id="ramErr"></p>
+            </div>
+
+            <!-- Product Internal Storage -->
+            <div class="form-group">
+              <label for="productStorage">Internal Storage</label>
+              <select name="InternalStorage" class="form-control" id="productStorage" required>
+                <option value="" disabled selected>Select storage</option>
+                <option value="32GB">32GB</option>
+                <option value="64GB">64GB</option>
+                <option value="128GB">128GB</option>
+                <!-- Add more storage options as needed -->
+              </select>
+              <p style="color: red;" id="storageErr"></p>
+            </div>
+
+            <!-- Product Status -->
+            <div class="form-group">
+              <label for="productStatus">Product Status</label>
+              <select name="IsActive" class="form-control" id="productStatus" required>
+                <option value="" disabled selected>Select product status</option>
+                <option value="true">Active</option>
+                <option value="false">Disabled</option>
+                <!-- Add more status options as needed -->
+              </select>
+              <p style="color: red;" id="prodStausErr"></p>
+            </div>
+
+            <!-- Submit Button -->
+            
+
+            <!-- Cancel Button -->
+            <button type="button" class="btn btn-secondary" onclick="cancelForm()">Cancel</button>
+
+            <button type="button" onclick="validateAddProductForm()"  class="btn btn-primary" >Submit </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Content -->
+
+  <!-- Modal Logout -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to logout?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+          <a href="/admin/logout" class="btn btn-primary">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+

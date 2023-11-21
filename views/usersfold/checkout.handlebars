@@ -1,0 +1,207 @@
+<br>
+<div class="container">
+    <h1 class="my-4">CHECKOUT</h1>
+
+    <!-- Two-Column Layout -->
+    <div class="row">
+        <!-- First Column - Address Details and Add Address Option -->
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Shipping Addresses</h5>
+                    <p id="noaddress" class="text text-danger"></p>
+
+                    <form>
+                        <!-- Address Section 1 -->
+
+
+                        {{#each addresses}}
+                        <div class="address-section" style="border-bottom: solid rgb(118, 98, 98) 1px;">
+                            <input type="radio" name="shipping-address" value="{{this.AddressId}}" id="shpaddress"
+                                onclick="sentAddress('{{this.AddressId}}')">
+                            <label for="address1">
+                                <p>Name: {{this.FullName}}</p>
+                                <p>Pincode: {{this.PinCode}}</p>
+                            </label>
+                            <div class="mt-3">
+                                <a href='/editaddress/{{this.AddressId}}' class="btn btn-outline-warning">EDIT</a>
+                                <button type="button" class="btn btn-outline-warning"
+                                    onclick="removeAddress('{{this.AddressId}}')" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    Remove
+                                </button>
+
+                            </div>
+                            <br>
+                        </div>
+                        <br>
+                        {{/each}}
+
+                        <!-- Address Section 2 (Can add more sections as needed) -->
+
+
+                        <a class="btn btn-warning mt-3" href="/addaddress">Add New Address</a>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Second Column - Order Summary and Payment Options -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Order Summary</h5>
+                    <!-- Display the order summary inside a table -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each products}}
+                            <tr>
+                                <td>
+                                    <div class="d-flex">
+                                        <img src="/uploads/cropped/{{this.Images.[0]}}" alt="Product 2" width="50"
+                                            height="62" class="mr-3">
+                                        {{this.Name}} ( {{this.Quantity}} Nos)
+
+                                    </div>
+                                </td>
+
+                                <td>₹{{this.TotalFinalPrice}}</td>
+                            </tr>
+                            {{/each}}
+
+                            <!-- Add more items as needed -->
+                            <tr>
+                                <td><strong>Final Amount</strong></td>
+
+                                <td><strong>₹{{Summary}}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Payment Options -->
+                    <h5 class="card-title mt-3">Payment Options</h5>
+                    <p id="nopaymentmethod" class="text text-danger"></p>
+
+
+
+                    <div class="form-check">
+                        <input class="form-check-input" style="border: solid black 1px;" type="radio"
+                            onclick="paymentMethod('Online payment')" name="payment" id="razorpay" value="paypal">
+                        <label class="form-check-label" for "paypal">
+                            Online Payment
+                        </label>
+                    </div>
+                    <br>
+                    <div class="form-check">
+                        <input class="form-check-input" style="border: solid black 1px;" type="radio"
+                            onclick="paymentMethod('COD')" name="payment" id="cashOnDelivery"
+                            value="cashOnDelivery">
+                        <label class="form-check-label" for "cashOnDelivery">
+                            Cash on Delivery
+                        </label>
+
+                    </div>
+                    
+                    {{#if walletBalance}}
+                    <br>
+                    <div class="form-check">
+                        <input class="form-check-input" style="border: solid black 1px;" type="radio"
+                            onclick="paymentMethod('Wallet')" name="payment" id="wallet" value="wallet">
+                        <label class="form-check-label" for="wallet">
+                            Wallet
+                        </label>
+                        <div class="wallet-balance-badge">
+                            <span class="badge badge-info">₹{{walletBalance}}</span>
+                        </div>
+                    </div>
+                    {{/if}}
+
+
+
+
+                    <div id="placeorderdiv">
+                        <br>
+                        <button type="button" class="btn btn-success" id="togglebt" data-toggle="modal"
+                            data-target="#exampleModalCenter" onclick="hideModal()">
+                            <i class="fas fa-shopping-cart"></i> PLACE ORDER
+                        </button>
+
+
+                    </div>
+
+                    <div id="makepayment" style="display: none;">
+                        <button onclick="razorpaycall()" type="button" class="btn btn-danger mt-3">
+                            <i class="fas fa-money-check"></i> MAKE PAYMENT
+                        </button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ohh No!</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete?
+            </div>
+            <div class="modal-footer">
+
+                <a id="removemodal" style="color: white; text-decoration: none;" href=""
+                    class="btn btn-primary">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Confirm Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to confirm this order?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="placeit" type="submit" onclick="placeOrder()" class="btn btn-primary"
+                    data-dismiss="modal">Confirm
+                    Order</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+
+<script>
+
+
+</script>

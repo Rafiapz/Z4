@@ -1,0 +1,55 @@
+<div class="container">
+    <br>
+
+    <!-- Shipping Address Form -->
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Shipping Address</h5>
+                    <form id="shipping-form" method="post" action="/submitaddress">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="adressname" name="FullName">
+                                    <p id="adname-error" class="text-danger"></p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mobile" class="form-label">Mobile Number</label>
+                                    <input type="text" class="form-control" id="addressmobile" name="MobileNumber">
+                                    <p id="admobile-error" class="text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">House No., Building Name</label>
+                                    <input type="text" class="form-control" id="address" name="HouseNo" required>
+                                    <p id="address-error" class="text-danger"></p>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="locality" class="form-label">Locality</label>
+                                    <input type="text" class="form-control" id="locality" name="Locality" required>
+                                    <p id="locality-error" class="text-danger"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="city" class="form-label">City/District</label>
+                            <input type="text" class="form-control" id="city" name="City" required>
+                            <p id="city-error" class="text-danger"></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="zip" class="form-label">Pin Code</label>
+                            <input type="text" class="form-control" id="zip" name="PinCode" required>
+                            <p id="zip-error" class="text-danger"></p>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="validateAddressform()">Submit</button>
+
+                        <a href="/savedaddresses" type="button" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

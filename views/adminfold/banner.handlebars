@@ -1,0 +1,122 @@
+<div class="container">
+
+    <h3 class="text text-success">{{success.success}}</h3>
+
+    <h1 class="mt-5">Add Banner</h1>
+    <form action="/admin/add-banner" method="post" id="bannerForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="bannerTitle">Banner Title:</label>
+            <input type="text" id="BannerTitle" class="form-control" name="Banner_Title" required />
+            <p style="color: red;" id="bntitleErr"></p>
+        </div>
+
+        <label for="plan_type">Status:</label>
+        <select style="height: 47px;" name="IsActive" class="form-control" id="bannerStatus" required>
+
+            <option value="true">Active</option>
+            <option value="false">Disable</option>
+        </select>
+        <p style="color: red;" id="bnstatusErr"></p>
+
+        <div class="form-group">
+            <label for="bannerImage">Banner Image (Upload):</label>
+            <div class="custom-file">
+                <input type="file" onchange="prevBannerImage(event)" class="custom-file-input" name="Banner_Image"
+                    accept="image/*" id="bannerImage" />
+                <label class="custom-file-label" for="bannerImage">Choose file</label>
+                <p style="color: red;" id="bnimageErr"></p>
+            </div>
+        </div>
+
+        <!-- Image Preview -->
+        <div class="form-group">
+            <img id="imageBannerPreview" src="" class="img-thumbnail" alt="" />
+        </div>
+
+        <button type="button" onclick="validateBanner()" class="btn btn-primary">Add
+            Banner</button>
+    </form>
+
+    <h1 class="mt-5">Current Banners</h1>
+
+    <!-- Display current banners here (retrieve from your data source) -->
+    <div class="row">
+        {{#each Banners}}
+        <div class="col-md-12">
+            <div class="card mb-3 position-relative">
+                <!-- Edit and Delete buttons positioned at the top right -->
+                <div class="position-absolute top-0 end-0 m-3">
+                    <a class="btn btn-primary btn-sm" href="/admin/edit-banner/{{this._id}}">Edit</a>
+                    <button type="button" class="btn btn-danger btn-sm ml-2" onclick="removeBanner('{{this._id}}')"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">{{this.Banner_Title}}</h5>
+                </div>
+
+                <img src="/uploads/banners/{{this.Banner_Image}}" class="card-img-top" alt="Banner 1" />
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    {{#if prev}}
+    <li class="page-item"><a class="page-link" href="/admin/banners?page={{prev}}">Previous</a></li>
+    {{/if}}
+   
+    <li class="page-item"><a class="page-link" href="/admin/banners?page={{pageNum}}">{{pageNum}}</a></li>   
+   
+  {{#if next}}
+   <li class="page-item"><a class="page-link" href="/admin/banners?page={{next}}">Next</a></li>
+   {{/if}}
+  </ul>
+</nav>
+
+
+</div>
+
+<br /><br />
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ohh No!</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete?
+            </div>
+            <div class="modal-footer">
+
+                <a id="removemodalbnr" style="color: white; text-decoration: none;" href=""
+                    class="btn btn-primary">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to logout?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+          <a href="/admin/logout" class="btn btn-primary">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>

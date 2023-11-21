@@ -1,0 +1,36 @@
+<br>
+{{>userprofile}}
+<div class="container mt-5">
+    <h1>Edit Profile </h1>
+
+    <h3 class="text text-success">{{success.success}}</h3>
+
+    <form id="profileForm" action="/update-profile" method="post" >
+        <div class="form-group">
+            <label for="profileFullName">Full Name</label>
+            <input type="text" class="form-control" id="profileFullName" name="Full_Name" value="{{userProfile.Full_Name}}" placeholder="Enter your full name">
+            <p id="profileNameError" class="text-danger"></p>
+        </div>
+        <div class="form-group">
+            <label for="profileMobileNumber">Mobile Number</label>
+            <input type="tel" class="form-control" id="profileMobileNumber" name="Mobile_Number" value="{{userProfile.Mobile_Number}}" placeholder="Enter your mobile number">
+            <p class="text-danger" id="profileMobileNumberError" ></p>
+        </div>
+        <div class="form-group">
+            <label for "profileOldPassword">Old Password</label>
+            <input type="password" class="form-control" name="oldPassword" id="profileOldPassword" placeholder="Enter your old password">
+            <p id="profileOldPasswordError" class="text-danger">{{wrongPassword}}</p>
+        </div>
+        <div class="form-group">
+            <label for="profileNewPassword">New Password</label>
+            <input type="password" class="form-control" id="profileNewPassword" name="Password" placeholder="Enter your new password">
+            <p id="profileNewPasswordError" class="text-danger">{{notMatching}}</p>
+        </div>
+        <div class="form-group">
+            <label for="profileConfirmPassword">Confirm Password</label>
+            <input type="password" class="form-control" id="profileConfirmPassword" name="ConfirmPassword" placeholder="Confirm your new password">
+            <p id="profileConfirmPasswordError" class="text-danger">{{notMathing}}</p>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="validateProfileForm()">Update Profile</button>
+    </form>
+</div>

@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-md-7 order-2 order-md-1 aa">
+      <img src="/user/photos/basket_shop.png" alt="Image" class="shpimg" />
+    </div>
+    <div class="col-md-5 order-1 order-md-2">
+      <div class="signup">
+        <!-- Wrap the form in a <form> element -->
+        <form action="/loginsubmit" method="post"> <!-- Set the action and method attributes accordingly -->
+          <h2 class="custom-italic-label">Log in to Shop</h2>
+          <!-- Add the "Enter your details below" label with extra spacing -->
+          <div class="form-group mb-3">
+            <!-- Add mb-3 class for extra bottom margin -->
+            <label for="enter-details" class="custom-italic-label">
+              Enter your details below
+            </label>
+          </div>
+          <div class="form-group">
+            <label for="email" class="custom-italic-label">Email</label>
+            <input
+              type="email"
+              {{!-- id="email" --}}
+              name="Email_Id"
+              class="form-control fcustom"
+              required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password" class="custom-italic-label">Password</label>
+            <input
+              type="password"
+              {{!-- id="password" --}}
+              name="Password"
+              class="form-control fcustom"
+              required
+            />
+          </div>
+          <!-- Add margin-top to create space -->
+          <div class="mb-2 mt-2">
+            <button
+              type="submit"
+              class="mvv btn btn-danger custom-create-account-btn"
+            >
+              Log In
+            </button>
+          </div>
+        </form> <!-- Close the <form> element -->
+        <p class="mt-3 custom-italic-label">
+          Don't have an account? <a href="/signup">Sign up</a>
+        </p>
+        <p class="mt-3 custom-italic-label text-danger">
+          {{invalid}}
+        </p>
+        <p class="mt-3 custom-italic-label">
+          <a href="/forgot-password"> Fogot Password?</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+

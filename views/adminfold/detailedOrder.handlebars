@@ -1,0 +1,63 @@
+<div class="container">
+    <h1 class="my-4">Order Details</h1>
+    <div class="row">
+        <!-- Order Details Column -->
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p><strong>Order ID:</strong>ORD{{details.[0]._id}}</p>
+                    <p><strong>Order Date:</strong>{{details.[0].Order_Date}}</p>
+                    <p><strong>Payment Method:</strong> {{details.[0].Payment_Method}}</p>
+                    <p><strong>Status:</strong> {{details.[0].Status}}</p>
+                </div>
+            </div>
+
+            <!-- Product Details Cards -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Products Ordered</h5>
+                    {{#each product}}
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4" style="max-height: 150px;">
+                                <img style="max-height: 150px;" src="/uploads/cropped/{{this.Image}}" alt="Product 1"
+                                    class="img-fluid">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Product : {{this.Name}}</h5>
+                                    <p class="card-text"><strong>Product Id:</strong> {{this.Product_id}}</p>
+                                    <p class="card-text"><strong>Price: </strong>{{this.Order_Price}}</p>
+                                    <p class="card-text"><strong>Quantity: {{this.Quantity}}</strong> </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Shipping Address Column -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Shipping Address</h5>
+                    <p><strong>Recipient Name:</strong> {{Shipping_Address.FullName}}</p>
+                    <p><strong>House No.:</strong> {{Shipping_Address.HouseNo}}</p>
+                    <p><strong>Locality:</strong> {{Shipping_Address.Locality}}</p>
+                    <p><strong>District:</strong> {{Shipping_Address.City}}</p>
+                    <p><strong>Pin Code:</strong> {{Shipping_Address.PinCode}}</p>
+
+                </div>
+            </div>
+            
+        </div>
+    
+        
+    </div>
+</div>
+
+

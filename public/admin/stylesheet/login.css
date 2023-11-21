@@ -1,0 +1,30 @@
+.header {
+    background-color: #143d7c; /* Blue background color */
+      color: #fff; /* Text color */
+      padding: 10px; /* Adjust padding as needed */
+      text-align: center;
+      font-size: 24px; /* Adjust font size as needed */
+    }
+
+    .error{
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 80vh;
+    }
+
+    .fa{
+      color: white;
+    }
+
+    .image-preview-container {
+      display: flex;
+      flex-wrap: wrap;
+  }
+  
+  .preview-image {
+      width: 30%; /* Set the image size to 30% */
+      margin: 10px; /* Add some margin to create a gap between images */
+  }   

@@ -1,0 +1,60 @@
+
+ 
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card custom-card">
+                <div class="card-body">
+
+                    <h2 class="card-title text-center">Forgot Password</h2>
+                    <p class="card-text text-muted text-center">
+                        Enter the email address associated with your Z4 account.
+                    </p>
+                    <p class="text text-danger"> {{notfound}}</p>
+
+                    <form  action="/sendOTP-forgot-password" method="post" >
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" name="Email" class="form-control custom-input" id="email" placeholder="Enter your email" required>
+                        </div>
+
+                        <!-- Center the "Send Code" button -->
+                        <div class="text-center mb-3">
+                            <button type="submit"  class="btn btn-danger custom-btn">
+                                Send Code
+                            </button>
+                           
+                        </div>
+						 </form>
+                         
+
+                        {{!-- <div class="mb-3">
+                            <label for="otp" class="form-label">Enter OTP</label>
+                            <input type="text" class="form-control custom-input" id="otp" placeholder="Enter OTP" required>
+                        </div>
+
+                        <div class="text-center mb-3">
+                            <button type="submit" class="btn btn-danger custom-btn">
+                                Verify Me <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div> --}}
+                   
+
+                    
+
+                    {{!-- <p class="text-muted text-center">Already have an account? <a href="#">Sign in</a></p>
+
+                    <div class="border rounded p-3 mt-3">
+                        <p class="text-muted text-center">You may contact customer service for help restoring access to your account.</p>
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="/user/stylesheet/forgot.css">
+
+
+

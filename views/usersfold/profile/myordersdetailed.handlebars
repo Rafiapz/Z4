@@ -1,0 +1,130 @@
+<br>
+{{>userprofile}}
+<div class="container">
+    <h1 class="my-4">Order Details</h1>
+    <div class="row">
+        <!-- Order Details Column -->
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p><strong>Order ID: ORD{{details._id}}</strong></p>
+                    <p><strong>Order Date: {{details.Order_Date}}</strong></p>
+                    <p><strong>Payment Method: {{details.Payment_Method}}</strong></p>
+                    <p><strong>Total Amount: {{details.Total_Amount}}</strong></p>
+                    <p id="userordstatustg"><strong>Status:  {{details.Status}}</strong></p>
+                </div>
+            </div>
+
+            <!-- Product Details Cards -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Products Ordered</h5>
+                    {{#each product}}
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4" style="max-height: 150px;">
+                                <img style="max-height: 150px;" src="/uploads/cropped/{{this.Image}}" alt="Product 1"
+                                    class="img-fluid">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Product : {{this.Name}}</h5>
+                                    <p class="card-text"><strong>Product Id: {{this.Product_id}}</strong></p>
+                                    <p class="card-text"><strong>Price: {{this.Order_Price}}</strong></p>
+                                    <p class="card-text"><strong>Quantity: {{this.Quantity}}</strong> </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Shipping Address Column -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Shipping Address</h5>
+                    <p><strong>Recipient Name: {{Shipping_Address.FullName}}</strong></p>
+                    <p><strong>House No.:{{Shipping_Address.HouseNo}}</strong></p>
+                    <p><strong>Locality: {{Shipping_Address.Locality}}</strong></p>
+                    <p><strong>District: {{Shipping_Address.City}}</strong></p>
+                    <p><strong>Pin Code:{{Shipping_Address.PinCode}}</strong></p>
+
+                </div>
+            </div>
+            <br>
+            <div style="display: flex; justify-content: space-between;">
+                {{#if returned}}
+                {{else}}
+                    <button onclick="" id="rtnn" type="button" class="btn btn-danger" data-toggle="modal"
+                    data-target="#exampleModalCenter">
+                    {{#if return_available}}
+                    Return
+                    {{else}}
+                    Cancel Order
+                    {{/if}}
+                    </button>
+                    {{/if}}
+                <div style="margin: 0 10px;"></div> <!-- This creates a 10px gap between the buttons -->
+                {{#if return_available}}
+                <a href="/download-invoice/{{details._id}}" class="btn btn-info">Download Invoice</a>
+                {{/if}}
+            </div>
+          
+
+        </div>
+
+
+    </div>
+</div>
+
+2
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Ohh no!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                  {{#if return_available}}
+                    Are you sure you want to return the items
+                    {{else}}
+                   Are you sure you want to cancel order
+                    {{/if}}
+                
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                
+                      {{#if return_available}}
+                      <button onclick="returnItems('{{details._id}}')"  type="button" class="btn btn-primary"
+                    data-dismiss="modal">
+                    Return
+                      </button>
+                    {{else}}
+                    <button onclick="cancelOrder('{{details._id}}')" type="button" class="btn btn-primary"
+                    data-dismiss="modal">
+                    Cancel Order
+                    
+                    </button>
+                    {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
+

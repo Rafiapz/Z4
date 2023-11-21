@@ -1,0 +1,362 @@
+<style>
+    /* Style labels */
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight:
+            bold;
+    }
+
+    /* Style text inputs and select boxes */
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 10px;
+
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Style the
+  submit button */
+    input[type="submit"] {
+        background-color: #007bff;
+        color:
+            white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    /* Style the select box */
+    select.form-control {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow:
+            1px 1px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Optional: Style the modal content */
+    .modal-content {
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    /* Optional: Style the
+  modal header and footer if needed */
+    .modal-footer {
+        color: white;
+        border-radius: 10px;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 12px;
+    }
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    /* Style for
+  individual card */
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 300px;
+        background-color: #f7f7f7;
+    }
+
+    /* Style for card title */
+    .card-title {
+        font-weight: bold;
+        font-size: 18px;
+        margin: 0;
+    }
+
+    /* Style for card content */
+    .card-content {
+        margin-top: 10px;
+    }
+
+    /* Style for coupon details (example) */
+    .coupon-detail {
+        margin: 5px 0;
+    }
+</style>
+
+
+<div class="container-fluid">
+
+    <div class="col-md-2">
+
+
+
+
+
+    </div>
+
+    <div class="form-group mt-3">
+        <form class="form-inline" action="/admin/search-coupon" method="post">
+            <input type="text" name="query" class="form-control mr-2" placeholder="Search...">
+            <button type="submit" class="btn btn-primary">Search</button>
+
+        </form>
+
+
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-right">
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Add
+                    Coupon</button>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <p style="color: red;">{{error.error}}</p>
+
+
+    <div style="margin-left: 10px;" class="card-container">
+        {{#each coupons}}
+        <div class="card">
+            <div class="card-content">
+                <!-- Add Edit and Delete buttons at the top -->
+
+                <h2 class="card-title">{{this.CouponType}}</h2>
+                <p class="coupon-detail"><strong>Coupon Code: {{this.Code}}</strong></p>
+                <p class="coupon-detail"><strong>Discount:
+                        {{this.Discount}}%</strong></p>
+                <p class="coupon-detail"><strong>Minimum order amount:
+                        {{this.MinimumOrderAmount}}</strong></p>
+                <p class="coupon-detail"><strong>Created Date:
+                        {{this.CreatedAt}}</strong></p>
+                <p class="coupon-detail"><strong>Expiry Date:
+                        {{this.ExpiryDate}}</strong></p>
+
+                <br />
+                <!-- Add more coupon details as needed -->
+                <div class="d-flex justify-content-end mb-3">
+                    <button class="btn btn-info mr-2" data-toggle="modal" data-target=".bd-example-modal-lge"
+                        onclick="editCoupon('{{this.Code}}','{{this.CouponType}}','{{this.Discount}}','{{this.ExpiryDate}}','{{this.MinimumOrderAmount}}','{{this.UsageLimit}}','{{this.IsActive}}','{{this._id}}')">Edit</button>
+
+
+                    <button type="button" class="btn btn-outline-danger" onclick="removeCoupon('{{this._id}}')"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            {{#if prev}}
+            <li class="page-item"><a class="page-link" href="/admin/coupons?page={{prev}}">Previous</a></li>
+            {{/if}}
+
+            <li class="page-item"><a class="page-link" href="/admin/coupons?page={{pageNum}}">{{pageNum}}</a></li>
+
+            {{#if next}}
+            <li class="page-item"><a class="page-link" href="/admin/coupons?page={{next}}">Next</a></li>
+            {{/if}}
+        </ul>
+    </nav>
+
+
+    <!-- Add Close button to the modal -->
+
+    <!--modal-->
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                {{#if success}}
+                {{success}}
+                {{/if}}
+
+                <form id="couponForm" action="/admin/add-coupon" method="post">
+
+                    <div class="modal-body">
+                        <label for="Code">Coupon Code:</label>
+                        <input type="text" id="coupon_code" name="Code" required />
+                        <p style="color: red;" id="cpCodeerr"></p>
+
+                        <div class="form-group">
+                            <label for="coupon-type">Coupon Type</label>
+                            <select style="height: 47px;" name="CouponType" class="form-control" id="couponType"
+                                required>
+                                <option value="" disabled selected>Select Coupon Type</option>
+                                {{!-- <option value="Welcome offer">Welcome offer</option> --}}
+                                <option value="Festival Offer">Public Coupon</option>
+                            </select>
+                        </div>
+                        <p style="color: red;" id="couponTypeErr"></p>
+
+                        <label for="discount">Discount %:</label>
+                        <input type="number" id="discountcpn" name="Discount" required />
+                        <p style="color: red;" id="discountcpnErr"></p>
+
+                        <label for="expiry_date" style="font-weight: bold; font-size: 16px;">Expiry Date:</label>
+                        <input type="date" id="expiry_datecpn" name="ExpiryDate" required
+                            style="padding: 5px; border: 1px solid #ccc; border-radius: 5px;" />
+                        <p style="color: red;" id="datecpnErr"></p>
+
+                        <label for="minimum_order">Minimum Order Amount:</label>
+                        <input type="number" id="minimum_ordercpn" name="MinimumOrderAmount" />
+                        <p style="color: red;" id="minimum_ordercpnErr"></p>
+
+                        <label for="usage_limit">Usage Limit:</label>
+                        <input type="number" id="usage_limit" name="UsageLimit" />
+                        <P style="color: red;" id="usage_limitErr"></P>
+
+                        <label for="plan_types" style="color: black;">Status:</label>
+                        <select style="height: 47px;" name="IsActive" class="form-control" id="couponStatus" required>
+                            <option value="" disabled selected>Select Status</option>
+                            <option value="true">Active</option>
+                            <option value="false">Disable</option>
+                        </select>
+                        <p style="color: red;" id="couponStatusErr"></p>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="submitBtn" type="button" onclick="validateCoupon()" class="btn btn-primary"
+                        value="Add Coupon">Add Coupon</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{! coupn edit modal }}
+
+    <div class="modal fade bd-example-modal-lge" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                {{#if success}}
+                {{success}}
+                {{/if}}
+
+                <form id="couponFormEdit" method="post" action="/admin/edit-coupon-submit">
+
+                    <div class="modal-body">
+                        <label for="editCode">Coupon Code:</label>
+                        <input type="text" id="edit_coupon_code" name="Code" required />
+                        <p style="color: red;" id="edit_cpCodeerr"></p>
+
+                        <div class="form-group">
+                            <label style="display: none;" for="editCouponType">Coupon Type</label>
+                            <select style="height: 47px; display: none;" name="CouponType" class="form-control" id="edit_couponType"
+                                required>
+                                <option value="" disabled selected>Select Coupon Type</option>
+                                <option value="Welcome offer">Welcome offer</option>
+                                <option value="Festival Offer">Festival Offer</option>
+                            </select>
+                            
+                        </div>
+                        <p style="color: red;" id="edit_couponTypeErr"></p>
+
+                        <label for="editDiscount">Discount %:</label>
+                        <input type="number" id="edit_discountcpn" name="Discount" required />
+                        <p style="color: red;" id="edit_discountcpnErr"></p>
+
+                        <label for="editExpiryDate" style="font-weight: bold; font-size: 16px;">Expiry Date:</label>
+                        <input type="date" id="edit_expiry_datecpn" name="ExpiryDate" required
+                            style="padding: 5px; border: 1px solid #ccc; border-radius: 5px;" />
+                        <p style="color: red;" id="edit_datecpnErr"></p>
+
+                        <label for="editMinimumOrder">Minimum Order Amount:</label>
+                        <input type="number" id="edit_minimum_ordercpn" name="MinimumOrderAmount" />
+                        <p style="color: red;" id="edit_minimum_ordercpnErr"></p>
+
+                        <label for="editUsageLimit">Usage Limit:</label>
+                        <input type="number" id="edit_usage_limit" name="UsageLimit" />
+                        <P style="color: red;" id="edit_usage_limitErr" />
+                        </p>
+
+                        <label for="editCouponStatus" style="color: black;">Status:</label>
+                        <select style="height: 47px;" name="IsActive" class="form-controls" id="edit_couponStatus"
+                            required>
+
+                            <option value="" disabled selected>Select Status</option>
+                            <option value="true">Active</option>
+                            <option value="false">Disable</option>
+                        </select>
+                        <p style="color: red;" id="edit_couponStatusErr"></p>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="submitBtn" type="button" onclick="editCouponValidation()" class="btn btn-primary"
+                        value="Add Coupon">Submit</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Logout -->
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+    <script src="/admin/script/coupon.js"></script>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to logout?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                    <a href="/admin/logout" class="btn btn-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{!-- cofirmation modal --}}
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Ohh No!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete?
+                </div>
+                <div class="modal-footer">
+
+                    <a id="removemodalcpn" style="color: white; text-decoration: none;" href=""
+                        class="btn btn-primary">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,61 @@
+<div class="container">
+
+    <h1 class="mt-5">Edit Banner</h1>
+    <h3 style="color: rgb(16, 100, 16);" >{{sucess.success}}</h3>
+    <form action="/admin/edit-submit-banner" method="post" id="editBannerForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="bannerTitle">Banner Title:</label>
+            <input type="text" class="form-control" value="{{Banner.Banner_Title}}" name="Banner_Title"
+                id="editBannerTitle" required>
+            <p style="color: red;" id="editBntitleErr"></p>
+        </div>
+
+        <label for="plan_type">Status:</label>
+        <select style="height: 47px;" name="IsActive" class="form-control" id="editBannerStatus" required>
+
+            <option value="true">Enable</option>
+            <option value="false">Disable</option>
+        </select>
+        <input style="display: none;" value="{{Banner.IsActive}}" type="text" name="" id="dummyStatBann">
+        <p style="color: red;" id="editBnstatusErr"></p>
+
+        <div class="form-group">
+            <label for="bannerImage">Banner Image (Upload):</label>
+            <div class="custom-file">
+                <input value="" type="file" onchange="prevBannerImage(event)" class="custom-file-input"
+                    name="Banner_Image" accept="image/*" id="editBannerImage">
+                <label class="custom-file-label" for="editBannerImage">Choose file</label>
+                <p style="color: red;" id="editBnimageErr"></p>
+            </div>
+        </div>
+
+        <input style="display: none;" name="bid" value="{{Banner._id}}" type="text">
+
+        <!-- Image Preview -->
+        <div class="form-group">
+            <img id="editImageBannerPreview" src="/uploads/banners/{{Banner.Banner_Image}}" class="img-thumbnail"
+                alt="Image Preview">
+        </div>
+
+        <button type="button" onclick="validateEditBanner()" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<br><br>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const IsActive=document.getElementById('dummyStatBann').value
+
+        let isActiveSelect = document.getElementById('editBannerStatus'); // Use 'editoffproductStatus' as the correct ID
+        for (let i = 0; i < isActiveSelect.options.length; i++) {
+            if (isActiveSelect.options[i].value === IsActive.toString()) {
+                isActiveSelect.selectedIndex = i;
+                break;
+            }
+        }
+
+    });
+</script>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Website</title>
+    <!-- Include Bootstrap CSS and JavaScript -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Ff538r5bvbqp4p7Kojzxz3f5nZB/epU4M+TaV5FFSLw5c6Pm+A/pb5E/KLb5F5v3" crossorigin="anonymous">
+</head>
+<body>
+
+<header class="custom-header"> <!-- Changed class name to "custom-header" -->
+  <!-- nav bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid nvbr">
+      <a class="navbar-brand" href="#">
+        <h3 class="text-white">Z4</h3>
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars text-white"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link active nvitems" aria-current="page" href="#"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nvitems" href="#">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nvitems" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nvitems" href="#">Sign in</a>
+          </li>
+          <li class="nav-item hdt">
+            <a class="nav-link nvitems" href="#"></a>
+          </li>
+        </ul>
+
+        <form class="form-inline">
+          <!-- Use ml-auto to align to the right -->
+          <div class="input-group">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Search"
+            />
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Wishlist button with no border -->
+        <button class="btn btn-outline-secondary border-0 ml-2" type="button">
+          <i class="fas fa-heart"></i>
+        </button>
+        
+        <!-- Cart button with no border -->
+        <button class="btn btn-outline-secondary border-0" type="button">
+          <i class="fas fa-shopping-cart"></i>
+        </button>
+
+        <!-- Dropdown for user logout -->
+        <div class="btn-group">
+          <button class="btn btn-outline-secondary dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user"></i> {{userId}} <!-- Replace with the actual user's name -->
+          </button>
+          <div class="dropdown-menu">
+            <!-- Dropdown items here (e.g., a "Logout" link) -->
+            <a class="dropdown-item" href="/logout">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- nav bar -->
+</header>
+
+<!-- Include Bootstrap JavaScript (popper.js and bootstrap.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+ZayR5pdTp//3z2Bbm3W1IO5i5z1Ty5V6pGAGB5pUuXpV2K1" crossorigin="anonymous"></script>
+
+</body>
+</html>

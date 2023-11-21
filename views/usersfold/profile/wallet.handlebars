@@ -1,0 +1,89 @@
+<br>
+{{>userprofile}}
+<div class="container mt-5">
+
+    <h1 class="mb-4">Wallet</h1>
+
+    <!-- Display Wallet Information -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body" style="border: 1px solid #ccc; border-radius: 5px;">
+                    <h5 class="card-title">Wallet Balance</h5>
+                    <p><strong>Available Balance: ₹ {{wallet.Balance}}</strong></p>
+                    {{!-- <p><strong>Pending Balance:</strong> $100</p> --}}
+                </div>
+            </div>
+            <div class="container mt-3">
+                <p><strong>Refer and Earn ₹100</strong></p>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="referralLink" value="/signup?id={{userobjid}}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" onclick="copyToClipboard()">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body" style="border: 1px solid #ccc; border-radius: 5px;">
+                    <h5 class="card-title">Transaction History</h5>
+                    <ul class="list-group">
+
+                        {{#each History}}
+                        <li class="list-group-item">
+                            <p><strong>Date: {{this.Date}}</strong></p>
+
+                            <p><strong>Amount: ${{this.Amount}}</strong></p>
+
+                            <p><strong>Transaction: ${{this.Transaction}}</strong></p>
+
+                        </li>
+                        {{/each}}
+                        <!-- Add more transactions as needed -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    {{#if prev}}
+    <li class="page-item"><a class="page-link" href="/wallet?page={{prev}}">Previous</a></li>
+    {{/if}}
+   
+    <li class="page-item"><a class="page-link" href="/wallet?page={{pageNum}}">{{pageNum}}</a></li>   
+   
+  {{#if next}}
+   <li class="page-item"><a class="page-link" href="/wallet?page={{next}}">Next</a></li>
+   {{/if}}
+  </ul>
+</nav>
+</div>
+
+
+
+<script>
+    function copyToClipboard() {
+        const referralLink = document.getElementById("referralLink");
+        referralLink.select();
+        document.execCommand("copy");
+        
+        Toastify({
+        text: "Referral link copied to clipboard",
+        duration: 1500,
+        destination: "https://github.com/apvarun/toastify-js",
+        newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "center", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function(){} // Callback after click
+      }).showToast();
+        
+    }
+</script>

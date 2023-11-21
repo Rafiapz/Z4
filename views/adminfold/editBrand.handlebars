@@ -1,0 +1,51 @@
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Add Brand</h5>
+                </div>
+                <div class="card-body">
+                    <form id="edtBrandForm" action="/admin/submitbrandEdit?id={{details._id}}" method="post">
+                        <div class="form-group">
+                            <label for="categoryName">Brand Name</label>
+                            <input type="text" class="form-control" name="Name" value="{{details.Name}}" id="edtBrandId" placeholder="Enter category name" required>
+                            <p style="color: red;" id="edtbrandError" ></p>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" id="cdd" class="btn btn-secondary mr-2" onclick="cancel()">Cancel</button>
+                            <button type="button" onclick="editBrandValidation()" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- Modal Logout -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to logout?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+          <a href="/admin/logout" class="btn btn-primary">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+

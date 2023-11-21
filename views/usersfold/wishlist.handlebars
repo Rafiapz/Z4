@@ -1,0 +1,47 @@
+<br>
+{{>userprofile}}
+<div style="justify-content: center; min-height: 650px;" class="container">
+    <h1 style="margin-left: 15%;" class="mt-5 mb-4">My Wishlist</h1>
+
+    <div style="justify-content: center;" class="row">
+        <div style="max-width: 900px;" class="col-md-12">
+            {{#if Items}}
+            {{#each Items}}
+            <div id="wishlistcontainer{{this._id}}" class="card mb-3">
+                <div class="row no-gutters">
+                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                        <img style="max-height: 150px; width: auto;" src="/uploads/cropped/{{this.Images.[0]}}" class="card-img" alt="Product 1">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <h5 class="card-title">{{this.Name}}</h5>
+                          
+                            {{#if this.Price}}
+                            <p class="card-text"><medium class="text "><del class="text text-danger" >Price: ₹{{this.Price}}</del></medium></p>
+                            {{/if}}
+                             <p class="card-text"><medium class="text ">Price: ₹{{this.DiscountPrice}}</medium></p>
+                            <p class="text-muted" >RAM : {{this.RAM}}</p>
+                            <p class="text-muted" >Storage : {{this.InternalStorage}} </p>
+                             <div class="col-md-12 d-flex align-items-center justify-content-end">
+                                <button id="tocart{{this._id}}" onclick="addToCartFromWishlist(`{{this._id}}`)" class="btn btn-outline-info mr-2">Add to cart</button>
+                                   <button style="display: none;" id="itemincart{{this._id}}" class="btn btn-outline-info mr-2">Item in cart</button>
+                                <button type="button" class="btn btn-outline-danger"
+                                    onclick="removeItemFromWishlist('{{this._id}}')">Remove</button>                                      
+                                                                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        
+        {{else}}
+        <h3>You haven't added any products yet</h3>
+        <br>
+        <a class="btn btn-info" href="/">Find items to save</a>
+        {{/if}}
+        </div>
+    </div>
+</div>
+
+ 

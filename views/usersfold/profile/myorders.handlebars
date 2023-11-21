@@ -1,0 +1,51 @@
+<br>
+{{>userprofile}}
+
+<div class="container-fluid" style="min-height: 600px;">
+    <H2 style="margin-left: 40%;" >My Orders</H2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-warning">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Payment Method</th>
+                    <th>Payment Status</th>
+                    <th>Order Total</th>
+                    <th>Status</th>
+                    <th>Products</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each myOrders}}
+                <tr>
+                    <td>ORD{{this._id}}</td>
+                    <td>{{this.Order_Date}}</td>
+                    <td>{{this.Payment_Method}}</td>
+                    <td>{{this.Payment_Status}}</td>
+                    <td>{{this.Total_Amount}}</td>
+                    <td>{{this.Status}}</td>
+                       
+                    <td><a class="btn btn-info"
+                            href="/detailedorderview?Order={{this._id}}">View Details</a></td>
+                </tr>
+                <!-- Add more rows for additional orders -->
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    {{#if prev}}
+    <li class="page-item"><a class="page-link" href="/myorders?page={{prev}}">Previous</a></li>
+    {{/if}}
+   
+    <li class="page-item"><a class="page-link" href="/myorders?page={{pageNum}}">{{pageNum}}</a></li>   
+   
+  {{#if next}}
+   <li class="page-item"><a class="page-link" href="/myorders?page={{next}}">Next</a></li>
+   {{/if}}
+  </ul>
+</nav>
+</div>
+

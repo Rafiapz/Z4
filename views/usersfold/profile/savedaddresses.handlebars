@@ -1,0 +1,84 @@
+  <br>
+  {{>userprofile}}
+  <div class="container mt-5">
+        <h1 class="mb-4">Saved Addresses</h1>
+
+        <!-- Display Saved Addresses -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list-group">
+                    
+                    {{#if Address}}
+
+                    {{#each Address}}
+                    <!-- Address 1 -->
+                    <li class="list-group-item">
+                        <div class="row" style="border-bottom: solid black 1px;" >
+                            <div class="col-md-8">
+                                <h5 class="mb-3">{{this.FullName}}</h5>
+                                <p class="mb-1"><strong>Mobile Number:</strong>{{this.MobileNumber}}</p>
+                                <p class="mb-1"><strong>House No.:</strong>{{this.HouseNo}}</p>
+                              
+                                <p class="mb-1"><strong>Locality:</strong>{{this.Locality}} </p>
+                                <p class="mb-1"><strong>City:</strong>{{this.City}}</p>
+                                <p class="mb-1"><strong>Pincode:</strong>{{this.PinCode}}</p>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-center justify-content-end">
+                                <a href="/editaddress/{{this._id}}" class="btn btn-info mr-2">Edit</a>
+                                <button type="button" class="btn btn-outline-danger"
+                                    onclick="removeAddressFromProfile('{{this._id}}')" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                    {{/each}}
+
+                    {{else}}
+
+                   
+                    <!-- Address 2 -->
+                    {{/if}}
+                    <!-- Add more addresses as needed -->
+                </ul>
+                 <a class="btn btn-warning mt-3" href="/addaddress">Add New Address</a>
+            </div>
+            
+        </div>
+        <br>
+    <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    {{#if prev}}
+    <li class="page-item"><a class="page-link" href="/savedaddresses?page={{prev}}">Previous</a></li>
+    {{/if}}
+   
+    <li class="page-item"><a class="page-link" href="/savedaddresses?page={{pageNum}}">{{pageNum}}</a></li>   
+   
+  {{#if next}}
+   <li class="page-item"><a class="page-link" href="/savedaddresses?page={{next}}">Next</a></li>
+   {{/if}}
+  </ul>
+</nav>
+
+    </div>
+    
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ohh No!</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete?
+            </div>
+            <div class="modal-footer">
+
+                <a id="removemodalProfile" style="color: white; text-decoration: none;" href=""
+                    class="btn btn-primary">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -339,6 +339,7 @@ async function getCheckout(req, res) {
       .populate("Items.Product_id")
       .exec();
 
+      
 
     const products = userCart.Items.map((ob) => {
       ob.TotalPrice = ob.Product_id.Price * ob.Quantity;
@@ -360,6 +361,9 @@ async function getCheckout(req, res) {
         TotalFinalPrice: ob.TotalDiscountPrice,
       };
     });
+
+    req.session.order=userCart
+
 
     const wallet = await walletCol.findOne({ User_id: req.session.userId })
     let walletBalance = false

@@ -34,10 +34,7 @@ async function makePayment(req, res) {
 
 async function placeOrder(req, res) {
   try {
-    const products = await cartCol
-      .findOne({ User_id: req.session.userId })
-      .populate("Items.Product_id")
-      .exec();
+  
 
     let orderData = {};
     orderData.User_id = req.session.userId;
@@ -51,7 +48,7 @@ async function placeOrder(req, res) {
     orderData.Order_Date = moment(currtentDate).format("MMMM D, YYYY");
     orderData.Status = "Placed";
     orderData.Shipping_Address = req.body.Address;
-    orderData.Total_Amount = await subtotal(req, res);
+    orderData.Total_Amount = await subtotal(req, res,null,'checkout');
     const Expected_Delivery_Date = new Date(
       new Date().getTime() + 5 * 24 * 60 * 60 * 1000
     );
@@ -60,7 +57,7 @@ async function placeOrder(req, res) {
     );
     orderData.Items = [];
 
-    const orderProducts = products.Items.map((ob) => {
+    const orderProducts = req.session.order.Items.map((ob) => {
       return {
         Product_id: ob.Product_id._id,
         Order_Price: ob.Product_id.DiscountPrice,
@@ -75,6 +72,9 @@ async function placeOrder(req, res) {
     });
 
     const documentData = await ordersCol.create(orderData);
+
+
+    req.session.order=null
 
     if (documentData && req.session.couponDiscountPercentage) {
 

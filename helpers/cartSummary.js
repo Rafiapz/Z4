@@ -1,14 +1,19 @@
 const cartCol = require("../model/cartModel");
 const productsCol = require("../model/productsModel");
 
-async function cartSummary(req, res, couponDiscountPercentage) {
+async function cartSummary(req, res, couponDiscountPercentage,checkout) {
 
   try {
-    const userCart = await cartCol
+
+    let userCart
+    if(checkout==='checkout'){
+      userCart=req.session.order
+    }else{
+     userCart = await cartCol
       .findOne({ User_id: req.session.userId })
       .populate("Items.Product_id")
       .exec();
-
+    }
     if (userCart) {
 
       const cartproducts = userCart.Items.map((ob) => {

@@ -146,6 +146,23 @@ async function changeProductQuantity(req, res) {
     const count = req.body.count;
     let userid = req.session.userId;
 
+    const currentData = await cartCol.findOne({ User_id: userid, "Items.Product_id": productId })
+
+    const currentProducts = currentData.Items
+    let negative = false
+    currentProducts.forEach((ob) => {
+      if (ob.Product_id == productId) {
+        if (ob.Quantity <= 1 && count == -1) {
+          negative = true
+        }
+      }
+    })
+
+    if (negative) {
+      return
+    }
+
+
     await cartCol.updateOne(
       { User_id: userid, "Items.Product_id": productId },
       { $inc: { "Items.$.Quantity": count } }

@@ -123,24 +123,24 @@ async function placeOrder(req, res) {
 
 async function getallOrdersAdmin(req, res) {
   try {
-    let pageNum = req.query.page||1
+    let pageNum = req.query.page || 1
     const perPage = 10;
 
-    pageNum=parseInt(pageNum)
+    pageNum = parseInt(pageNum)
 
     let allOrders = await ordersCol
       .find({})
       .sort({ Order_Date: -1 })
       .lean();
 
-      const startIndex = (pageNum - 1) * perPage;
-      const endIndex = pageNum * perPage;
-      let length=allOrders.length
-    
-      allOrders = allOrders.slice(startIndex, endIndex);
+    const startIndex = (pageNum - 1) * perPage;
+    const endIndex = pageNum * perPage;
+    let length = allOrders.length
+
+    allOrders = allOrders.slice(startIndex, endIndex);
 
 
-      allOrders.map((ob) => {
+    allOrders.map((ob) => {
       let product = [];
 
       for (let i = 0; i < ob.Items.length; i++) {
@@ -174,18 +174,18 @@ async function getallOrdersAdmin(req, res) {
       ob.Order_Date = formattedDate;
     });
 
-    let prev=pageNum-1
-    let next=pageNum+1
+    let prev = pageNum - 1
+    let next = pageNum + 1
 
-    if(prev<1){
-      prev=false
-    }
- 
-    if(next>Math.ceil(length/perPage)){
-      next=false
+    if (prev < 1) {
+      prev = false
     }
 
-    res.render("adminfold/orders", { admin: true, allOrders,pageNum,prev,next });
+    if (next > Math.ceil(length / perPage)) {
+      next = false
+    }
+
+    res.render("adminfold/orders", { admin: true, allOrders, pageNum, prev, next });
   } catch (error) {
     console.log(error);
     res.render("adminfold/error", { admin: true });
@@ -277,7 +277,7 @@ async function detailedOrderview(req, res) {
 async function userMyOrders(req, res) {
   try {
 
-    
+
     let pageNum = req.query.page || 1
     const perPage = 7;
 
@@ -290,7 +290,7 @@ async function userMyOrders(req, res) {
 
     const startIndex = (pageNum - 1) * perPage;
     const endIndex = pageNum * perPage;
-    let length =myOrders.length
+    let length = myOrders.length
 
     myOrders = myOrders.slice(startIndex, endIndex);
     let prev = pageNum - 1
@@ -441,19 +441,21 @@ async function generateInvoice(req, res) {
       .populate("Shipping_Address")
       .lean();
 
-      let totalprodPrice=0
+    let totalprodPrice = 0
 
-      orderDetails.Items.forEach((ob)=>{
-        totalprodPrice+=ob.Order_Price
-      })   
+    orderDetails.Items.forEach((ob) => {
+      totalprodPrice += ob.Order_Price
+    })
 
-      let coupon = Math.ceil((totalprodPrice - orderDetails.Total_Amount) / totalprodPrice * 100)
+    let coupon=0
+
+    coupon = Math.ceil((totalprodPrice - orderDetails.Total_Amount) / totalprodPrice * 100)
 
 
-     let products = orderDetails.Items.map((ob) => {
+    let products = orderDetails.Items.map((ob) => {
       ob.Order_Price = ob.Order_Price / 1.18;
 
-      if(coupon){
+      if(coupon>1){
         ob.Order_Price =Math.ceil( ob.Order_Price * (1 - coupon / 100))
       }
 
@@ -464,7 +466,6 @@ async function generateInvoice(req, res) {
         "tax-rate": 18,
       };
     });
-
 
 
     const mongoDBDate = orderDetails.Order_Date;

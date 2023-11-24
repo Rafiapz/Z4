@@ -16,7 +16,7 @@ const oneMonth = 1000 * 60 * 60 * 24 * 30;
 
 app.use(
   session({
-    secret: process.env.secretkey,
+    secret: '85acffa5a33ba88818ffd2a0fba88a5ddee33b4feb2aa8078f88b102331a6a353cee',
     saveUninitialized: false,
     cookie: {
       maxAge: oneMonth,

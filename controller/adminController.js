@@ -9,6 +9,7 @@ const transnCol = require("../model/transactionsModel");
 const ordersCol = require('../model/orderModel');
 const { checkBrandOffer } = require("./brandOfferController");
 
+
 async function getCustomers(req, res) {
   try {
 
@@ -458,6 +459,9 @@ async function editProductSubmit(req, res) {
 
     ImageCrop(Images);
     await productCol.updateOne({ _id: req.query.id }, { $set: product });
+     oldProductImages = [];
+     existing = [];
+     ToRemove = [];
     checkBrandOffer(req,res,req.query.id)
     res.redirect("/admin/products");
   } catch (error) {
@@ -717,8 +721,9 @@ async function getSalesReportpage(req, res) {
       total = total + ob.Total_Amount
     })
 
+    const brands=await brandCol.find().lean()
 
-    res.render('adminfold/salesReport', { admin: true, salesSummary, date: true, total, pageNum, prev, next })
+    res.render('adminfold/salesReport', { admin: true, salesSummary, date: true, total, pageNum, prev, next ,brands})
 
   } catch (error) {
     console.log(error);

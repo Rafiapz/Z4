@@ -41,7 +41,7 @@ const { getTransactions, refund } = require("../controller/TransactionController
 const {getCoupon,addCoupon, editcouponSubmit, deleteCoupon, searchCoupon}=require('../controller/couponController');
 const { getBanners, addBanner, editBanner, editSubmitBanner, deleteBanner } = require("../controller/bannerController");
 const { getBrandOffers, addBrandOffer, changeOfferStatus, editSubmitBrandOffer, deleteBrandOffer } = require("../controller/brandOfferController");
-const { download, dateWiseReports, } = require("../helpers/pdf");
+const { download, dateWiseReports, brandWiseSalesSummary, } = require("../helpers/pdf");
 
 
 router.get('/dashboard',isAdmininSession,getDashboard)
@@ -141,6 +141,8 @@ router.get('/offer-status-change/:id',isAdmininSession,changeOfferStatus)
 router.post('/edit-submit-brandOffer/:id',isAdmininSession,editSubmitBrandOffer)
 
 router.get('/delete-brandOffer/:id',isAdmininSession,deleteBrandOffer)
+
+router.get('/brand-wise-sales-report/:id',isAdmininSession,brandWiseSalesSummary)
 
 router.post('/date-filter-report',isAdmininSession,dateWiseReports)
 

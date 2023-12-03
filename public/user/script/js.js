@@ -799,6 +799,11 @@ function couponApplyAjax() {
     method: 'get',
     success: (response) => {
 
+      if(!response.message){
+        error.style.color = 'red'
+        error.innerHTML = 'Invalid coupon'
+      }else{
+
       if (response.status) {
         error.style.color = 'green'
         error.innerHTML = response.message
@@ -815,6 +820,7 @@ function couponApplyAjax() {
         error.innerHTML = response.message
       }
     }
+  }
   })
 
 }

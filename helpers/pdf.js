@@ -66,6 +66,19 @@ async function dateWiseReports(req, res) {
   }
 }
 
+async function brandWiseSalesSummary(req,res){
+
+  try {
+
+    
+
+    
+  } catch (error) {
+    console.log(error);
+    res.render('adminfold/error',{admin:true})
+  }
+}
+
 
 
 async function download(req, res) {
@@ -164,7 +177,7 @@ async function download(req, res) {
   }
 }
 
-module.exports = { download, dateWiseReports };
+module.exports = { download, dateWiseReports, brandWiseSalesSummary };
 
 
 

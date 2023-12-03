@@ -8,27 +8,4 @@ window.addEventListener("click", function (event) {
     }
 });
 
-// function couponAddAjax() {
-
-//     const btn = document.getElementById('submitBtn')
-
-//     var formData = $("#couponForm").serialize();
-
-//     console.log(formData);
-
-//     $.ajax({
-//         url: '/admin/add-coupon',
-//         method: 'POST',
-//         data: formData,
-//         success: function (response) {
-
-//             btn.setAttribute('data-dismiss', 'modal')
-//         },
-//         error: function (error) {
-
-
-//         }
-//     });
-
-// }
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-const user = process.env.MONGO_USERNAME;
-const pass = process.env.MONGO_PASSWORD;
+// const user = process.env.MONGO_USERNAME;
+// const pass = process.env.MONGO_PASSWORD;
 
 // mongoose.connect("mongodb://127.0.0.1:27017/Z4_SHEET", {
 //   auth: {
@@ -12,7 +12,8 @@ const pass = process.env.MONGO_PASSWORD;
 // })
 
 
-mongoose.connect('mongodb+srv://rafikandathuvayal:atlasPassword@cluster0.trekfmx.mongodb.net/')
+const connection_string = process.env.DB_CONNECTION_STRING
+mongoose.connect(connection_string)
 
   .then(() => {
     console.log("DATABASE CONNECTED SUCCESFULLY");

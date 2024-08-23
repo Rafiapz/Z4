@@ -8,6 +8,8 @@ const ImageCrop = require("../helpers/cropImage");
 const transnCol = require("../model/transactionsModel");
 const ordersCol = require('../model/orderModel');
 const { checkBrandOffer } = require("./brandOfferController");
+const cloudinary = require('cloudinary').v2
+const fs = require('fs')
 
 
 async function getCustomers(req, res) {
@@ -294,17 +296,56 @@ async function removeBrand(req, res) {
 
 async function submitProduct(req, res) {
   try {
+
+    const cloudName = process.env.cloudName
+    const apiKey = process.env.cloudApiKey
+    const apiSecret = process.env.cloudApiSecret
+
+    cloudinary.config({
+      cloud_name: cloudName,
+      api_key: apiKey,
+      api_secret: apiSecret
+    });
+
+
+    const url = 'http://localhost:7100'
     const product = req.body;
     product.Images = req.files;
-    const Images = req.files.map((ob) => {
-      return ob.filename;
+    let Images = req.files.map((ob) => {
+      return 'public/uploads/' + ob.filename;
     });
+
+    // ImageCrop(Images);
+    let one;
+    let two;
+    let three
+
+    if (Images.length >= 2) {
+      one = await cloudinary.uploader.upload(Images[0]);
+      two = await cloudinary.uploader.upload(Images[1]);
+      three = await cloudinary.uploader.upload(Images[2]);
+      Images = []
+      Images.push(one.url)
+      Images.push(two.url)
+      Images.push(three.url)
+    } else if (Images.length === 2) {
+      one = await cloudinary.uploader.upload(Images[0]);
+      two = await cloudinary.uploader.upload(Images[1]);
+      Images = []
+      Images.push(one.url)
+      Images.push(two.url)
+    } else if (Images.length === 1) {
+      one = await cloudinary.uploader.upload(Images[0]);
+      Images = []
+      Images.push(one.url)
+    }
+
     product.Images = Images;
-    ImageCrop(Images);
 
-    const data=await productCol.create(product);
 
-    checkBrandOffer(req,res,data._id)
+    const data = await productCol.create(product);
+
+    checkBrandOffer(req, res, data._id)
     res.redirect("/admin/products");
   } catch (error) {
     console.log(error);
@@ -459,10 +500,10 @@ async function editProductSubmit(req, res) {
 
     ImageCrop(Images);
     await productCol.updateOne({ _id: req.query.id }, { $set: product });
-     oldProductImages = [];
-     existing = [];
-     ToRemove = [];
-    checkBrandOffer(req,res,req.query.id)
+    oldProductImages = [];
+    existing = [];
+    ToRemove = [];
+    checkBrandOffer(req, res, req.query.id)
     res.redirect("/admin/products");
   } catch (error) {
     console.log(error);
@@ -721,9 +762,9 @@ async function getSalesReportpage(req, res) {
       total = total + ob.Total_Amount
     })
 
-    const brands=await brandCol.find().lean()
+    const brands = await brandCol.find().lean()
 
-    res.render('adminfold/salesReport', { admin: true, salesSummary, date: true, total, pageNum, prev, next ,brands})
+    res.render('adminfold/salesReport', { admin: true, salesSummary, date: true, total, pageNum, prev, next, brands })
 
   } catch (error) {
     console.log(error);

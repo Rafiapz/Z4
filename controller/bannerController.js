@@ -1,30 +1,33 @@
 const bannerCol = require("../model/bannerModel");
 const flash = require("express-flash");
+const cloudinary = require('cloudinary').v2
+const fs = require('fs')
+
 
 async function getBanners(req, res) {
   try {
-    
-    let pageNum = req.query.page||1
+
+    let pageNum = req.query.page || 1
     const perPage = 1;
 
-    pageNum=parseInt(pageNum)
+    pageNum = parseInt(pageNum)
 
     let Banners = await bannerCol.find().lean();
 
     const startIndex = (pageNum - 1) * perPage;
     const endIndex = pageNum * perPage;
-    let length=Banners.length
-  
-    Banners = Banners.slice(startIndex, endIndex);
-    let prev=pageNum-1
-    let next=pageNum+1
+    let length = Banners.length
 
-    if(prev<1){
-      prev=false
+    Banners = Banners.slice(startIndex, endIndex);
+    let prev = pageNum - 1
+    let next = pageNum + 1
+
+    if (prev < 1) {
+      prev = false
     }
- 
-    if(next>Math.ceil(length/perPage)){
-      next=false
+
+    if (next > Math.ceil(length / perPage)) {
+      next = false
     }
 
 
@@ -32,7 +35,7 @@ async function getBanners(req, res) {
       admin: true,
       Banners,
       success: req.flash(),
-      pageNum,prev,next 
+      pageNum, prev, next
     });
   } catch (error) {
     console.log(error);
@@ -42,13 +45,31 @@ async function getBanners(req, res) {
 
 async function addBanner(req, res) {
   try {
+    const cloudName = process.env.cloudName
+    const apiKey = process.env.cloudApiKey
+    const apiSecret = process.env.cloudApiSecret
+
+    cloudinary.config({
+      cloud_name: cloudName,
+      api_key: apiKey,
+      api_secret: apiSecret
+    });
+
     let data = {};
 
     data.Banner_Title = req.body.Banner_Title;
     data.IsActive = req.body.IsActive;
-    data.Banner_Image = req.file.filename;
+
+    const result = await cloudinary.uploader.upload(req?.file?.path);
+    data.Banner_Image = result?.url
 
     await bannerCol.create(data);
+
+    fs.unlink(req.file.path, (err) => {
+      if (err) {
+        console.log('failed to delete file')
+      }
+    })
 
     req.flash("success", "Banner succesfully added");
 

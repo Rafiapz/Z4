@@ -54,7 +54,7 @@
     <div class="carousel-inner">
         {{#each Banners}}
         <div class="carousel-item {{#if @first}}active{{/if}}">
-            <img class="d-block w-100" src="/uploads/banners/{{this.Banner_Image}}">
+            <img class="d-block w-100" src="{{this.Banner_Image}}">
         </div>
         {{/each}}
     </div>
@@ -201,7 +201,7 @@
                                 <span>{{this.Offer_Percentage}}% OFF</span>
                             </div>
                             {{/if}}
-                            <img onclick="productDetailsUser('{{this._id}}')" src="/uploads/cropped/{{Images.[0]}}">
+                            <img onclick="productDetailsUser('{{this._id}}')" src="{{Images.[0]}}">
 
                             {{#if ../guest}}
                             {{else}}

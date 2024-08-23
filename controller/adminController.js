@@ -308,7 +308,7 @@ async function submitProduct(req, res) {
     });
 
 
-    const url = 'http://localhost:7100'
+
     const product = req.body;
     product.Images = req.files;
     let Images = req.files.map((ob) => {
@@ -481,19 +481,35 @@ async function removeSingleImage(req, res) {
 
 async function editProductSubmit(req, res) {
   try {
+
+    const cloudName = process.env.cloudName
+    const apiKey = process.env.cloudApiKey
+    const apiSecret = process.env.cloudApiSecret
+
+    cloudinary.config({
+      cloud_name: cloudName,
+      api_key: apiKey,
+      api_secret: apiSecret
+    });
+
+
     const product = req.body;
     product.Images = req.files;
 
     let Images = existing.Images;
 
     if (req.files.Image1) {
-      Images.push(req.files.Image1[0].filename);
+
+      let result = await cloudinary.uploader.upload('public/uploads/' + req.files.Image1[0].filename);
+      Images.push(result?.url)
     }
     if (req.files.Image2) {
-      Images.push(req.files.Image2[0].filename);
+      let result = await cloudinary.uploader.upload('public/uploads/' + req.files.Image2[0].filename);
+      Images.push(result?.url);
     }
     if (req.files.Image3) {
-      Images.push(req.files.Image3[0].filename);
+      let result = await cloudinary.uploader.upload('public/uploads/' + req.files.Image3[0].filename);
+      Images.push(result?.url);
     }
 
     product.Images = Images;

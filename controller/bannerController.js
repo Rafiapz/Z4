@@ -94,13 +94,26 @@ async function editBanner(req, res) {
 
 async function editSubmitBanner(req, res) {
   try {
+
+    const cloudName = process.env.cloudName
+    const apiKey = process.env.cloudApiKey
+    const apiSecret = process.env.cloudApiSecret
+
+    cloudinary.config({
+      cloud_name: cloudName,
+      api_key: apiKey,
+      api_secret: apiSecret
+    });
+
     let data = {};
 
     data.Banner_Title = req.body.Banner_Title;
     data.IsActive = req.body.IsActive;
 
     if (req.file) {
-      data.Banner_Image = data.Banner_Image = req.file.filename;
+      const result = await cloudinary.uploader.upload(req?.file?.path);
+      data.Banner_Image = result?.url
+
     } else {
       const document = await bannerCol.findOne({ _id: req.body.bid });
       data.Banner_Image = document.Banner_Image;

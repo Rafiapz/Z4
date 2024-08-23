@@ -2,7 +2,7 @@ const fs = require("fs");
 const pdf = require("html-pdf");
 const handlebars = require("handlebars");
 const ordersCol = require("../model/orderModel");
-const puppeteer = require('puppeteer');
+
 
 
 async function dateWiseReports(req, res) {
@@ -66,16 +66,16 @@ async function dateWiseReports(req, res) {
   }
 }
 
-async function brandWiseSalesSummary(req,res){
+async function brandWiseSalesSummary(req, res) {
 
   try {
 
-    
 
-    
+
+
   } catch (error) {
     console.log(error);
-    res.render('adminfold/error',{admin:true})
+    res.render('adminfold/error', { admin: true })
   }
 }
 
@@ -135,7 +135,7 @@ async function download(req, res) {
     });
 
     const htmlString = template({ salesSummary, total });
-   
+
 
     const pdfPath =
       "./public/admin/pdf/salesReport" +

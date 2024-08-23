@@ -114,11 +114,11 @@ imageZoom = new ImageZoom(document.getElementById("img-container"), options);
 //change image
 function changeSrc(id) {
   let mainImage = document.getElementById("mainim");
-  mainImage.src = `/uploads/cropped/${id}`;
-  mainImage.dataset.zoomImage = `/uploads/original/${id}`;
+  mainImage.src = `${id}`;
+  mainImage.dataset.zoomImage = `${id}`;
 
   document.getElementById("img-container").innerHTML = `
-    <img id="mainim" src="/uploads/cropped/${id}" alt="Product Image" class="img-fluid">`;
+    <img id="mainim" src="${id}" alt="Product Image" class="img-fluid">`;
   imageZoom = new ImageZoom(document.getElementById("img-container"), options);
 }
 
@@ -165,7 +165,7 @@ function addToCart(productId) {
   });
 }
 
-  
+
 function changeQuantity(
   productId,
   count,
@@ -799,28 +799,28 @@ function couponApplyAjax() {
     method: 'get',
     success: (response) => {
 
-      if(!response.message){
+      if (!response.message) {
         error.style.color = 'red'
         error.innerHTML = 'Invalid coupon'
-      }else{
-
-      if (response.status) {
-        error.style.color = 'green'
-        error.innerHTML = response.message
-        total.innerHTML = response.total
-
-        if (response.couponDiscountAmount) {
-
-          couponDiscount.innerHTML = '₹-' + response.couponDiscountAmount
-          subtotal.innerHTML = response.total + response.couponDiscountAmount
-
-        }
       } else {
-        error.style.color = 'red'
-        error.innerHTML = response.message
+
+        if (response.status) {
+          error.style.color = 'green'
+          error.innerHTML = response.message
+          total.innerHTML = response.total
+
+          if (response.couponDiscountAmount) {
+
+            couponDiscount.innerHTML = '₹-' + response.couponDiscountAmount
+            subtotal.innerHTML = response.total + response.couponDiscountAmount
+
+          }
+        } else {
+          error.style.color = 'red'
+          error.innerHTML = response.message
+        }
       }
     }
-  }
   })
 
 }
